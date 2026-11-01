@@ -28,6 +28,163 @@
 .photo{height:142px;overflow:hidden}.photo img{display:block;width:auto!important;height:auto!important;max-width:76%!important;max-height:118px!important;object-fit:contain!important;margin:auto}.card[data-kind="bit"] .photo img{max-width:54%!important;max-height:95px!important}.card[data-kind="ratchet"] .photo img{max-width:68%!important;max-height:108px!important}.detail-photo{height:205px;min-width:0;overflow:hidden}.detail-photo img{display:block;width:auto!important;height:auto!important;max-width:94%!important;max-height:190px!important;object-fit:contain!important;margin:auto}.zoom{padding:22px}.zoom img{display:block;width:auto!important;height:auto!important;max-width:90vw!important;max-height:88vh!important;object-fit:contain!important;margin:auto}.mini img{display:block;width:auto!important;height:auto!important;max-width:54px!important;max-height:54px!important;object-fit:contain!important}
 .card h3{font-size:15px;line-height:1.25}.subtitle{font-size:11px}.card-body{padding:10px 12px}.detail-stats{grid-template-columns:repeat(3,minmax(0,1fr))}.metric strong{font-size:18px}
 @media(max-width:760px){.hero{padding:17px 13px}.hero-topline{gap:10px}.snapshot{min-width:0;width:100%;max-width:none}.shell{padding:0 10px 35px}.tool-inner{padding:0 10px}.tier-lane{grid-template-columns:42px minmax(0,1fr)}.tier-label{font-size:14px}.tier-cards{grid-template-columns:repeat(auto-fill,minmax(205px,1fr));padding:4px;gap:4px}.tier-combo{grid-template-columns:68px minmax(0,1fr);min-height:94px;gap:4px;padding:3px}.tier-main-img{width:68px;height:88px}.tier-component{grid-template-columns:25px minmax(0,1fr)}.tier-component img{width:25px!important;height:25px!important;max-width:25px!important;max-height:25px!important}.tier-combo-title{font-size:9px}.tier-combo-stats{font-size:7px}.photo{height:132px}}
+
+/* ===== Readability upgrade v2: larger desktop cards and touch targets ===== */
+body{font-size:16px;line-height:1.62}
+.hero-inner,.shell,.tool-inner{max-width:1680px}
+.hero{padding:34px 28px 30px}
+.hero-inner{padding:0 8px}
+.eyebrow{font-size:13px;letter-spacing:.18em}
+.hero h1{font-size:clamp(32px,3.4vw,48px);margin:13px 0 10px}
+.hero-subtitle,.hero p{font-size:16px!important;line-height:1.65}
+.snapshot{font-size:14px;min-width:260px;max-width:340px;padding:13px 15px}
+.snapshot strong{font-size:16px}
+.snapshot span{font-size:13px}
+.refresh-btn{font-size:13px;padding:8px 12px}
+.shell{padding:0 28px 58px}
+.tool-inner{padding:0 28px}
+.toolbar{padding:13px 0}
+.tabs{gap:9px}
+.tab{font-size:15px;padding:12px 17px;border-radius:13px}
+.tab span{font-size:11px}
+.controls{gap:11px;margin-top:12px}
+.search,.select{height:50px;font-size:15px;padding:0 15px;border-radius:13px}
+.btn{font-size:14px;padding:11px 15px}
+.quickfilters{gap:9px;margin-top:12px}
+.chip{font-size:14px;padding:8px 14px}
+.content-head{margin:25px 0 16px}
+.content-head h2{font-size:26px}
+.content-head p{font-size:15px}
+.count{font-size:14px;padding:8px 13px}
+.grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.card{border-radius:20px}
+.photo{height:218px!important}
+.photo img{width:calc(100% - 34px)!important;height:calc(100% - 28px)!important;max-width:285px!important;max-height:190px!important}
+.photo-badge{font-size:11px;padding:6px 9px;left:12px;top:12px}
+.photo-rank{font-size:13px;padding:6px 10px;right:12px;top:12px}
+.card-body{padding:17px 18px 18px}
+.code{font-size:13px}
+.tier{font-size:12px;padding:6px 9px}
+.card h3{font-size:20px;line-height:1.35;margin:10px 0 4px}
+.subtitle{font-size:14px;line-height:1.5}
+.statline{font-size:13px;gap:11px;margin-top:13px}
+.bar{height:5px;margin-top:11px}
+.card-foot{font-size:13px;padding:12px 18px}
+.overview-simple{padding:21px 23px;margin-top:25px}
+.overview-simple h2{font-size:23px}
+.overview-simple p{font-size:14px}
+.live-source{font-size:14px;padding:11px 15px}
+/* Tier / strong-combo board */
+.tier-board{gap:11px}
+.tier-lane{grid-template-columns:88px minmax(0,1fr);border-radius:13px}
+.tier-label{font-size:25px}
+.tier-cards{grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px;padding:10px}
+.tier-combo{grid-template-columns:106px minmax(0,1fr);gap:9px;min-height:132px;padding:7px;border-radius:10px}
+.tier-main-img{width:106px;height:116px;border-radius:8px}
+.tier-combo-right{gap:7px}
+.tier-combo-title{font-size:13px;line-height:1.35}
+.tier-components{gap:6px}
+.tier-component{grid-template-columns:43px minmax(0,1fr);gap:6px;padding:5px;border-radius:7px}
+.tier-component img{width:43px;height:43px}
+.tier-component span{font-size:11px;line-height:1.25}
+.tier-component small{font-size:10px}
+.tier-combo-stats{font-size:11px;gap:7px}
+.tier-chip{font-size:11px;padding:3px 7px}
+.tier-empty{font-size:14px;padding:16px}
+/* Overview / detail typography */
+.panel{padding:22px}
+.panel h3{font-size:20px}
+.panel-kicker{font-size:12px}
+.rank-row{grid-template-columns:38px minmax(0,1fr) 100px;padding:12px 13px;gap:12px}
+.rank-main strong{font-size:15px}
+.rank-main small{font-size:13px}
+.rank-metric{font-size:14px}
+.rank-metric small{font-size:11px}
+.meta-note{font-size:14px;padding:13px 15px}
+.source-link{font-size:14px;padding:12px 14px}
+.source-link small{font-size:12px}
+.footer{font-size:14px;padding:18px 20px}
+.dialog{width:min(1180px,100%)}
+.dialog-head{padding:24px 30px 21px}
+.dialog-head h2{font-size:clamp(26px,3.2vw,38px)}
+.dialog-head p{font-size:15px}
+.dialog-body{padding:24px 28px 30px}
+.detail-layout{grid-template-columns:330px minmax(0,1fr);gap:22px}
+.detail-photo{height:320px}
+.detail-stats{gap:10px}
+.metric{padding:13px}
+.metric span{font-size:12px}
+.metric strong{font-size:24px}
+.section-card{padding:17px;margin-bottom:13px}
+.section-card h4{font-size:16px}
+.section-card p{font-size:14px;line-height:1.55}
+.mini{font-size:13px;padding:10px 12px}
+.mini strong{font-size:14px}
+.mini span{font-size:13px}
+.detail-link{font-size:13px;padding:10px 13px}
+.notice{font-size:14px;padding:14px 16px}
+.empty{font-size:16px;padding:55px 25px}
+@media(max-width:1100px){
+  .hero-inner,.shell,.tool-inner{max-width:100%}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tier-cards{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+  .detail-layout{grid-template-columns:280px minmax(0,1fr)}
+}
+@media(max-width:760px){
+  body{font-size:16px}
+  .hero{padding:23px 16px}
+  .hero h1{font-size:clamp(29px,7vw,38px)}
+  .hero-subtitle,.hero p{font-size:15px!important}
+  .snapshot{font-size:13px}
+  .shell{padding:0 13px 38px}
+  .tool-inner{padding:0 13px}
+  .tabs{overflow-x:auto;flex-wrap:nowrap;padding-bottom:5px}
+  .tab{flex:none;font-size:14px;padding:11px 14px}
+  .controls{grid-template-columns:1fr 1fr}
+  .search{grid-column:1/-1}
+  .actions{grid-column:1/-1;justify-content:flex-start}
+  .grid{grid-template-columns:1fr;gap:14px}
+  .photo{height:220px!important}
+  .photo img{max-width:280px!important;max-height:190px!important}
+  .card-body{padding:16px}
+  .card h3{font-size:20px}
+  .subtitle{font-size:14px}
+  .statline{font-size:13px}
+  .card-foot{font-size:13px;padding:11px 16px}
+  .overview-simple{padding:17px;gap:12px}
+  .overview-simple h2{font-size:21px}
+  .overview-grid{grid-template-columns:1fr}
+  .tier-lane{grid-template-columns:52px minmax(0,1fr)}
+  .tier-label{font-size:16px}
+  .tier-cards{grid-template-columns:1fr;padding:7px;gap:7px}
+  .tier-combo{grid-template-columns:92px minmax(0,1fr);min-height:118px}
+  .tier-main-img{width:92px;height:104px}
+  .tier-component{grid-template-columns:39px minmax(0,1fr)}
+  .tier-component img{width:39px;height:39px}
+  .tier-combo-title{font-size:12px}
+  .tier-component span{font-size:10px}
+  .tier-component small{font-size:9px}
+  .tier-combo-stats{font-size:10px}
+  .detail-layout{grid-template-columns:1fr}
+  .detail-photo{height:270px}
+  .dialog-head{padding:19px 20px 17px}
+  .dialog-body{padding:15px}
+  .section-card h4{font-size:15px}
+  .section-card p{font-size:13px}
+  .small-grid{grid-template-columns:1fr}
+  .modal{padding:8px}
+  .dialog{max-height:96vh;border-radius:16px}
+}
+@media(max-width:420px){
+  .photo{height:195px!important}
+  .card h3{font-size:18px}
+  .detail-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tier-lane{grid-template-columns:43px minmax(0,1fr)}
+  .tier-label{font-size:14px}
+  .tier-combo{grid-template-columns:82px minmax(0,1fr);gap:6px}
+  .tier-main-img{width:82px;height:94px}
+}
+
 </style></head><body>
 <header class="hero"><div class="hero-inner"><div class="hero-topline"><div><div class="eyebrow">Beyblade X · Meta Atlas</div><h1>戰鬥陀螺 X<br><em>天梯配置圖鑑</em></h1><p class="hero-subtitle">天梯配置・陀螺上蓋・固鎖・軸心｜點卡片看詳情，點圖片放大。</p><p class="hero-subtitle" style="margin-top:7px;font-size:11px;color:#9eb3c6">公開網址可從手機、平板及電腦直接開啟｜資料由 GitHub Actions 每日更新</p></div><div class="snapshot"><strong id="snapshot-time">來源資料：2026/10/25</strong><span id="sync-status" aria-live="polite" title="同步狀態；滑鼠停留可查看詳細原因">正在讀取 GitHub Pages 資料…</span><button class="refresh-btn" id="refresh-data" type="button">↻ 重新讀取</button></div></div></div></header>
 <div class="toolbar"><div class="tool-inner"><nav class="tabs" id="tabs"><button class="tab" data-tab="overview">更新時間</button><button class="tab active" data-tab="combos">強勢配置</button><button class="tab" data-tab="blades">陀螺／上蓋</button><button class="tab" data-tab="ratchets">固鎖</button><button class="tab" data-tab="bits">軸心</button></nav><div class="controls" id="controls" style="display:none"><input class="search" id="search" placeholder="搜尋中文名、英文名、型號、零件代號…" autocomplete="off"><select class="select" id="sort"><option value="rank">依天梯排名</option><option value="name">名稱 A→Z</option><option value="cuts">依 Top-cut 次數</option><option value="first">依第一名比例</option></select><select class="select" id="tier-filter"><option value="all">全部等級</option><option value="X">X 級</option><option value="S">S 級</option><option value="A">A 級</option><option value="B">B 級</option><option value="C">C 級</option><option value="?">未定級／樣本不足</option><option value="—">尚無排行</option></select><div class="actions"><button class="btn" id="reset">清除篩選</button><a class="btn primary" href="https://beywatch.gg/" target="_blank" rel="noopener" style="text-decoration:none">查看即時網站 ↗</a></div></div><div class="quickfilters" id="quickfilters" style="display:none"><button class="chip active" data-type="all">全部</button><button class="chip" data-type="攻擊">攻擊</button><button class="chip" data-type="防守">防守</button><button class="chip" data-type="持久">持久</button><button class="chip" data-type="均衡">均衡</button></div></div></div>
