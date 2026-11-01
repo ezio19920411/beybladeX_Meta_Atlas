@@ -1,0 +1,90 @@
+name: Sync Beyblade X Data
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 每天台灣時間 09:20（UTC 01:20）；GitHub 排程可能延遲。
+    - cron: "20 1 * * *"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: beyblade-x-pages
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Prepare site and restore previous snapshots
+        shell: bash
+        run: |
+          rm -rf _site
+          mkdir -p _site/data data
+          cp index.html _site/index.html
+          touch _site/.nojekyll
+          if compgen -G "data/*.json" > /dev/null; then
+            cp data/*.json _site/data/
+          fi
+
+      - name: Fetch BEYWATCH snapshots (independent per page)
+        id: sync
+        env:
+          BBX_OUTPUT_DIR: ${{ github.workspace }}/_site/data
+        run: python scripts/update_sources.py
+
+      - name: Save successful snapshots to repository
+        shell: bash
+        run: |
+          mkdir -p data
+          if compgen -G "_site/data/*.json" > /dev/null; then
+            cp _site/data/*.json data/
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data/*.json
+            if git diff --cached --quiet; then
+              echo "No snapshot changes to commit."
+            else
+              git commit -m "chore: update Beyblade X data snapshots"
+              git push
+            fi
+          else
+            echo "No JSON snapshots are available yet. The published page will use its embedded catalog and show a first-sync notice."
+          fi
+
+      - name: Summarize published snapshots
+        shell: bash
+        run: |
+          echo "## BEYWATCH snapshot status" >> "$GITHUB_STEP_SUMMARY"
+          for part in blade ratchet bit combo; do
+            if [ -s "_site/data/$part.json" ]; then
+              bytes=$(wc -c < "_site/data/$part.json")
+              echo "- ✅ $part.json ($bytes bytes)" >> "$GITHUB_STEP_SUMMARY"
+            else
+              echo "- ⚠️ $part.json not available; embedded catalog remains visible" >> "$GITHUB_STEP_SUMMARY"
+            fi
+          done
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
