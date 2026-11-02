@@ -1,9 +1,14 @@
 name: Sync Beyblade X Data
 
 on:
+  # 每次 main 有新提交（包含 index.html 更新）後，自動同步並重新部署 Pages。
+  push:
+    branches:
+      - main
+  # 允許從 Actions 手動執行。
   workflow_dispatch:
+  # 每天台灣時間約 09:20（UTC 01:20）；GitHub 排程可能延遲。
   schedule:
-    # 每天台灣時間 09:20（UTC 01:20）；GitHub 排程可能延遲。
     - cron: "20 1 * * *"
 
 permissions:
