@@ -42,6 +42,9 @@ jobs:
           rm -rf _site
           mkdir -p _site/data data
           cp index.html _site/index.html
+          if [ -d radar ]; then
+            cp -R radar _site/radar
+          fi
           touch _site/.nojekyll
           if compgen -G "data/*.json" > /dev/null; then
             cp data/*.json _site/data/
