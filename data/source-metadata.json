@@ -1,0 +1,21 @@
+{
+  "dataset": "Funbox store social links",
+  "version": "2026-11-05-v1",
+  "providedBy": "user",
+  "storeCount": 68,
+  "regionCount": 15,
+  "defaultRegion": "TW-TXG",
+  "fields": [
+    "store name",
+    "Facebook page URL",
+    "LINE official account ID"
+  ],
+  "verification": "User-supplied list. URLs and LINE IDs have not been individually tested; geographic region is inferred from store name / location label. Missing address/phone fields remain blank rather than guessed.",
+  "notes": [
+    "Facebook share/reurl links may redirect; they are preserved as provided with URL normalization.",
+    "LINE friend URL is generated from the provided LINE Official Account ID using line.me/R/ti/p/.",
+    "Taichung is the default display region. All listed regions are available in the region selector."
+  ],
+  "sourceSheetUrl": "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0",
+  "regionMapping": "Region assignment inferred from store name or mall location because original table did not include a city/county column."
+}

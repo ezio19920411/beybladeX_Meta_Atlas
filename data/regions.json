@@ -1,0 +1,107 @@
+[
+  {
+    "regionId": "TW-TPE",
+    "country": "TW",
+    "name": "台北市",
+    "enabled": true,
+    "default": false
+  },
+  {
+    "regionId": "TW-NWT",
+    "country": "TW",
+    "name": "新北市",
+    "enabled": true,
+    "default": false
+  },
+  {
+    "regionId": "TW-TAO",
+    "country": "TW",
+    "name": "桃園市",
+    "enabled": true,
+    "default": false
+  },
+  {
+    "regionId": "TW-HSZ",
+    "country": "TW",
+    "name": "新竹市",
+    "enabled": true,
+    "default": false
+  },
+  {
+    "regionId": "TW-HSC",
+    "country": "TW",
+    "name": "新竹縣",
+    "enabled": true,
+    "default": false
+  },
+  {
+    "regionId": "TW-MIA",
+    "country": "TW",
+    "name": "苗栗縣",
+    "enabled": true,
+    "default": false
+  },
+  {
+    "regionId": "TW-TXG",
+    "country": "TW",
+    "name": "台中市",
+    "enabled": true,
+    "default": true
+  },
+  {
+    "regionId": "TW-CYI",
+    "country": "TW",
+    "name": "嘉義市",
+    "enabled": true,
+    "default": false
+  },
+  {
+    "regionId": "TW-TNN",
+    "country": "TW",
+    "name": "台南市",
+    "enabled": true,
+    "default": false
+  },
+  {
+    "regionId": "TW-KHH",
+    "country": "TW",
+    "name": "高雄市",
+    "enabled": true,
+    "default": false
+  },
+  {
+    "regionId": "TW-PIF",
+    "country": "TW",
+    "name": "屏東縣",
+    "enabled": true,
+    "default": false
+  },
+  {
+    "regionId": "TW-PEN",
+    "country": "TW",
+    "name": "澎湖縣",
+    "enabled": true,
+    "default": false
+  },
+  {
+    "regionId": "TW-ILA",
+    "country": "TW",
+    "name": "宜蘭縣",
+    "enabled": true,
+    "default": false
+  },
+  {
+    "regionId": "TW-HUA",
+    "country": "TW",
+    "name": "花蓮縣",
+    "enabled": true,
+    "default": false
+  },
+  {
+    "regionId": "TW-TTT",
+    "country": "TW",
+    "name": "台東縣",
+    "enabled": true,
+    "default": false
+  }
+]
