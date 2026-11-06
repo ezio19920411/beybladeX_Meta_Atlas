@@ -1,0 +1,74 @@
+name: Sync Funbox Stores from Google Sheets
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Every hour at minute 17 (UTC). GitHub may delay scheduled runs slightly.
+    - cron: "17 * * * *"
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: funbox-store-sync
+  cancel-in-progress: false
+
+jobs:
+  sync-stores:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Import stores from Google Sheets CSV
+        env:
+          FUNBOX_SHEET_CSV_URL: ${{ vars.FUNBOX_SHEET_CSV_URL }}
+        run: |
+          python radar/scripts/sync_funbox_stores.py \
+            --csv-url "${FUNBOX_SHEET_CSV_URL:-https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/export?format=csv&gid=0}" \
+            --sheet-url "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0" \
+            --data-dir radar/data
+
+      - name: Check whether store data changed
+        id: diff
+        shell: bash
+        run: |
+          if git diff --quiet -- radar/data/stores.json radar/data/stores.csv radar/data/regions.json radar/data/source-metadata.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No store data changes detected." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "Google Sheets store data changed; files will be committed and Pages deployment triggered." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Commit updated store data
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add radar/data/stores.json radar/data/stores.csv radar/data/regions.json radar/data/source-metadata.json
+          git commit -m "chore: sync Funbox stores from Google Sheets"
+          git push origin main
+
+      - name: Trigger existing GitHub Pages deployment
+        if: steps.diff.outputs.changed == 'true'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'sync-data.yml',
+              ref: 'main'
+            });
+            core.notice('已觸發既有 Sync Beyblade X Data 部署流程。');
