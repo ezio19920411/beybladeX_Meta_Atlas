@@ -1,0 +1,19 @@
+{
+  "dataset": "Funbox store social links",
+  "version": "2026-11-08T12:51:40+08:00",
+  "providedBy": "Google Sheets (user-maintained)",
+  "storeCount": 68,
+  "regionCount": 1,
+  "defaultRegion": "TW-TXG",
+  "fields": [
+    "store name",
+    "Facebook page URL",
+    "LINE official account ID",
+    "city (optional)"
+  ],
+  "verification": "Imported from user-maintained Google Sheet. Facebook and LINE links are not automatically verified as active or official.",
+  "sourceSheetUrl": "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0",
+  "sourceCsvUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQhwUDrSi-I3CEjVCCxY65oMLDalgsMZgmDKg7hCbnSy8jcJVMAFtRoDrjc3ctFhf8UR161_Q3_cZIi/pub?output=csv",
+  "importedAt": "2026-11-08T12:51:40+08:00",
+  "regionMapping": "Existing region mapping is retained by matching store name. New stores should include an optional 縣市 column; otherwise they are assigned to 待指定縣市."
+}

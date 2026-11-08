@@ -1,15 +1,1459 @@
 [
-  {"storeId":"tw-txg-funbox-zhongyou","regionId":"TW-TXG","brand":"Funbox","name":"台中中友","aliases":["中友","Funbox 台中中友店"],"address":"台中市北區三民路三段161號B棟7樓","phone":"04-2225-9107","lineId":"@815dstuy","lineUrl":"https://line.me/ti/p/~@815dstuy","facebookUrl":null,"sourceType":"official-directory","verificationStatus":"needs-manual-check","sourceUrls":["https://shop.funbox.com.tw/pages/門市資訊","https://uxux11.github.io/funbox-line/"],"lastVerifiedAt":null,"active":true},
-  {"storeId":"tw-txg-funbox-fengyuan-pacific","regionId":"TW-TXG","brand":"Funbox","name":"豐原太平洋","aliases":["豐原太平洋百貨","太平洋豐原"],"address":"台中市豐原區復興路2號5樓","phone":"04-2520-0529","lineId":"@094mvrhb","lineUrl":"https://line.me/ti/p/~@094mvrhb","facebookUrl":null,"sourceType":"official-directory","verificationStatus":"needs-manual-check","sourceUrls":["https://shop.funbox.com.tw/pages/門市資訊","https://uxux11.github.io/funbox-line/"],"lastVerifiedAt":null,"active":true},
-  {"storeId":"tw-txg-funbox-far-east","regionId":"TW-TXG","brand":"Funbox","name":"台中遠東","aliases":["台中遠百","遠東百貨台中店"],"address":"台中市西屯區台灣大道三段251號5樓","phone":"04-2259-1960","lineId":"@147vfxjr","lineUrl":"https://line.me/ti/p/~@147vfxjr","facebookUrl":null,"sourceType":"official-directory","verificationStatus":"needs-manual-check","sourceUrls":["https://shop.funbox.com.tw/pages/門市資訊","https://uxux11.github.io/funbox-line/"],"lastVerifiedAt":null,"active":true},
-  {"storeId":"tw-txg-funbox-guangsan-sogo","regionId":"TW-TXG","brand":"Funbox","name":"廣三SOGO","aliases":["廣三 SOGO","SOGO台中"],"address":"台中市西區台灣大道二段459號8樓","phone":"04-2319-0128","lineId":"@526bsjmb","lineUrl":"https://line.me/ti/p/~@526bsjmb","facebookUrl":null,"sourceType":"official-directory","verificationStatus":"needs-manual-check","sourceUrls":["https://shop.funbox.com.tw/pages/門市資訊","https://uxux11.github.io/funbox-line/"],"lastVerifiedAt":null,"active":true},
-  {"storeId":"tw-txg-funbox-mitsukoshi","regionId":"TW-TXG","brand":"Funbox","name":"新光三越台中","aliases":["台中三越","新光三越台中店"],"address":"台中市西屯區台灣大道三段301號6樓","phone":"04-2258-1590","lineId":"@833rhkmr","lineUrl":"https://line.me/ti/p/~@833rhkmr","facebookUrl":null,"sourceType":"official-directory","verificationStatus":"needs-manual-check","sourceUrls":["https://shop.funbox.com.tw/pages/門市資訊","https://uxux11.github.io/funbox-line/"],"lastVerifiedAt":null,"active":true},
-  {"storeId":"tw-txg-funbox-new-era","regionId":"TW-TXG","brand":"Funbox","name":"台中新時代","aliases":["新時代","台中新時代購物中心"],"address":"台中市東區復興路四段186號7樓","phone":"04-2224-1809","lineId":"@hdg3289a","lineUrl":"https://line.me/ti/p/~@hdg3289a","facebookUrl":null,"sourceType":"official-directory","verificationStatus":"needs-manual-check","sourceUrls":["https://shop.funbox.com.tw/pages/門市資訊","https://uxux11.github.io/funbox-line/"],"lastVerifiedAt":null,"active":true},
-  {"storeId":"tw-txg-funbox-wenxin-showtime","regionId":"TW-TXG","brand":"Funbox","name":"文心秀泰","aliases":["秀泰文心店","文心秀泰生活"],"address":"台中市南屯區文心南路289號4樓","phone":"04-2473-4289","lineId":"@605dilqq","lineUrl":"https://line.me/ti/p/~@605dilqq","facebookUrl":null,"sourceType":"official-directory","verificationStatus":"needs-manual-check","sourceUrls":["https://shop.funbox.com.tw/pages/門市資訊","https://uxux11.github.io/funbox-line/"],"lastVerifiedAt":null,"active":true},
-  {"storeId":"tw-txg-funbox-lalaport","regionId":"TW-TXG","brand":"Funbox","name":"台中LaLaport","aliases":["台中 lalaport","LaLaport台中"],"address":"台中市東區進德路600號3樓","phone":"04-2215-3530","lineId":"@620dfrfm","lineUrl":"https://line.me/ti/p/~@620dfrfm","facebookUrl":null,"sourceType":"official-directory","verificationStatus":"needs-manual-check","sourceUrls":["https://shop.funbox.com.tw/pages/門市資訊","https://uxux11.github.io/funbox-line/"],"lastVerifiedAt":null,"active":true},
-  {"storeId":"tw-txg-funbox-hanshin-intercontinental","regionId":"TW-TXG","brand":"Funbox","name":"台中漢神洲際","aliases":["漢神洲際","漢神洲際購物廣場"],"address":"台中市北屯區崇德路三段865號5樓（5A24）","phone":"04-2421-4427","lineId":"@218xxrbx","lineUrl":"https://line.me/ti/p/~@218xxrbx","facebookUrl":null,"sourceType":"official-directory","verificationStatus":"needs-manual-check","sourceUrls":["https://shop.funbox.com.tw/pages/門市資訊","https://uxux11.github.io/funbox-line/"],"lastVerifiedAt":null,"active":true},
-  {"storeId":"tw-txg-funbox-lihpao-1","regionId":"TW-TXG","brand":"Funbox","name":"麗寶一期","aliases":["麗寶樂園一期"],"address":"台中市后里區福容路201號A區2樓（店號2107）","phone":"04-2558-7833","lineId":"@829adhop","lineUrl":"https://line.me/ti/p/~@829adhop","facebookUrl":null,"sourceType":"supplemental-candidate","verificationStatus":"needs-manual-check","sourceUrls":["https://funbox.com.tw/stores.aspx","https://uxux11.github.io/funbox-line/"],"lastVerifiedAt":null,"active":true},
-  {"storeId":"tw-txg-funbox-mitsui-port","regionId":"TW-TXG","brand":"Funbox","name":"台中港三井","aliases":["台中港三井二期 Outlet","MITSUI OUTLET PARK 台中港"],"address":"台中市梧棲區台灣大道十段166號1樓","phone":"04-2656-0153","lineId":"@816xpruh","lineUrl":"https://line.me/ti/p/~@816xpruh","facebookUrl":null,"sourceType":"supplemental-candidate","verificationStatus":"needs-manual-check","sourceUrls":["https://funbox.com.tw/stores.aspx","https://uxux11.github.io/funbox-line/"],"lastVerifiedAt":null,"active":true},
-  {"storeId":"tw-txg-funbox-lihpao-2","regionId":"TW-TXG","brand":"Funbox","name":"麗寶二期（待確認）","aliases":["麗寶二期"],"address":"台中市后里區福容路201號D棟1樓（店號1004）","phone":"04-2558-5645","lineId":null,"lineUrl":null,"facebookUrl":null,"sourceType":"historical-candidate","verificationStatus":"needs-manual-check","sourceUrls":["https://funbox.com.tw/stores.aspx"],"lastVerifiedAt":null,"active":true},
-  {"storeId":"tw-txg-funbox-showtime-zakka","regionId":"TW-TXG","brand":"Funbox","name":"台中秀泰 Zakka（待確認）","aliases":["台中秀泰廣場 Zakka 專櫃"],"address":"台中市東區南京路76號1樓","phone":"04-2215-5916","lineId":null,"lineUrl":null,"facebookUrl":null,"sourceType":"historical-candidate","verificationStatus":"needs-manual-check","sourceUrls":["https://funbox.com.tw/stores.aspx"],"lastVerifiedAt":null,"active":true}
+  {
+    "storeId": "tw-tw-unk-funbox-c1d9d24ebd",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "台北忠孝遠東SOGO",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@lcn7452p",
+    "lineUrl": "https://line.me/R/ti/p/@lcn7452p",
+    "facebookUrl": "https://www.facebook.com/funboxsogo",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-4c987b3013",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "三越南西",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@626iceit",
+    "lineUrl": "https://line.me/R/ti/p/@626iceit",
+    "facebookUrl": "https://www.facebook.com/share/1BuSqwADRT/",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-672e2c01fb",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "三越站前",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@631ovgxp",
+    "lineUrl": "https://line.me/R/ti/p/@631ovgxp",
+    "facebookUrl": "https://www.facebook.com/profile.php?id=61593176934292",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-b283b7300d",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "天母SOGO",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@377cbfue",
+    "lineUrl": "https://line.me/R/ti/p/@377cbfue",
+    "facebookUrl": "https://www.facebook.com/profile.php?id=61592597564673",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-4cfad9472e",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "高島屋百貨",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@xbm4599s",
+    "lineUrl": "https://line.me/R/ti/p/@xbm4599s",
+    "facebookUrl": "https://www.facebook.com/ybg5152n#",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-b414440484",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "比漾廣場",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@ufq5307a",
+    "lineUrl": "https://line.me/R/ti/p/@ufq5307a",
+    "facebookUrl": "https://www.facebook.com/profile.php?id=61592677934745",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-2af395b882",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "桃園站前",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@fcm1241y",
+    "lineUrl": "https://line.me/R/ti/p/@fcm1241y",
+    "facebookUrl": "https://www.facebook.com/profile.php?id=100064059014450#",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-bdc214b897",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "桃園遠東",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@bix0595a",
+    "lineUrl": "https://line.me/R/ti/p/@bix0595a",
+    "facebookUrl": "https://www.facebook.com/profile.php?id=100064240476385",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-1f616e91c7",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "信義新天地A8館",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@983dfazy",
+    "lineUrl": "https://line.me/R/ti/p/@983dfazy",
+    "facebookUrl": "https://www.facebook.com/profile.php?id=61593106704912&locale=zh_TW",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-fa9557eca5",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "新竹遠東",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@822rfnmr",
+    "lineUrl": "https://line.me/R/ti/p/@822rfnmr",
+    "facebookUrl": "https://www.facebook.com/profile.php?id=61591842121755",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-feeaf1becc",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "中壢SOGO",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@xcs3672w",
+    "lineUrl": "https://line.me/R/ti/p/@xcs3672w",
+    "facebookUrl": "https://www.facebook.com/profile.php?id=61558958859748",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-d0933eb87d",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "板橋遠東",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@083zoknr",
+    "lineUrl": "https://line.me/R/ti/p/@083zoknr",
+    "facebookUrl": "https://www.facebook.com/share/1BmnHxAaZ7/?mibextid=wwXIfr",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-d9bf6a9be8",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "中和環球",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@zgq9395a",
+    "lineUrl": "https://line.me/R/ti/p/@zgq9395a",
+    "facebookUrl": "https://www.facebook.com/profile.php?id=61575325211390&locale=zh_TW",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-39130caf63",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "板橋大遠百",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@585clqqg",
+    "lineUrl": "https://line.me/R/ti/p/@585clqqg",
+    "facebookUrl": "https://www.facebook.com/profile.php?id=61584956488867",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-fb7f9fa01a",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "新竹巨城",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@532otwmb",
+    "lineUrl": "https://line.me/R/ti/p/@532otwmb",
+    "facebookUrl": "https://www.facebook.com/share/1D2TZJ7pr3/?mibextid=wwXIfr",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-54a4a424eb",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "美麗華",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@660hextn",
+    "lineUrl": "https://line.me/R/ti/p/@660hextn",
+    "facebookUrl": "https://www.facebook.com/profile.php?id=61592730395195",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-2c1e2f5acf",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "中壢大江",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@099ldnvw",
+    "lineUrl": "https://line.me/R/ti/p/@099ldnvw",
+    "facebookUrl": "https://www.facebook.com/profile.php?id=100063657227053",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-d039c84731",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "新月廣場",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@027iendl",
+    "lineUrl": "https://line.me/R/ti/p/@027iendl",
+    "facebookUrl": "https://www.facebook.com/funboxtoyluna/",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-3a527cbc8a",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "潤泰南港車站店",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@924tguor",
+    "lineUrl": "https://line.me/R/ti/p/@924tguor",
+    "facebookUrl": "https://www.facebook.com/profile.php?id=61592736394851",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-62ce8f5131",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "苗栗尚順",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@185vowmo",
+    "lineUrl": "https://line.me/R/ti/p/@185vowmo",
+    "facebookUrl": "https://www.facebook.com/share/1DZmr5Njyk/?mibextid=wwXIfr",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-14c9ef58b5",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "汐科遠雄",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@mhb3876c",
+    "lineUrl": "https://line.me/R/ti/p/@mhb3876c",
+    "facebookUrl": "https://www.facebook.com/profile.php?id=61592991209842",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-f175c6c32d",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "桃園環球A8",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@lae4656h",
+    "lineUrl": "https://line.me/R/ti/p/@lae4656h",
+    "facebookUrl": "https://www.facebook.com/profile.php?id=61591728303067",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-4883ba178e",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "新竹遠雄湳雅",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@agl4214l",
+    "lineUrl": "https://line.me/R/ti/p/@agl4214l",
+    "facebookUrl": "https://www.facebook.com/profile.php?id=61592712696197",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-18858ec543",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "樹林秀泰",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@046txnme",
+    "lineUrl": "https://line.me/R/ti/p/@046txnme",
+    "facebookUrl": "https://www.facebook.com/profile.php?id=61591486063647",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-ce25c93f53",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "淡水禮萊廣場",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@944creff",
+    "lineUrl": "https://line.me/R/ti/p/@944creff",
+    "facebookUrl": "https://www.facebook.com/share/1Db8rVD6Hk/?mibextid=wwXIfr",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-59f5713cce",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "天母三越",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@237annfd",
+    "lineUrl": "https://line.me/R/ti/p/@237annfd",
+    "facebookUrl": "https://www.facebook.com/share/1K6XRBMujq/",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-3edf24b659",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "遠百信義A13",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@020sqlyp",
+    "lineUrl": "https://line.me/R/ti/p/@020sqlyp",
+    "facebookUrl": "https://www.facebook.com/profile.php?id=61551944767554",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-61785c5043",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "台茂購物中心",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@504tdsbb",
+    "lineUrl": "https://line.me/R/ti/p/@504tdsbb",
+    "facebookUrl": "https://www.facebook.com/profile.php?id=61590975990981&locale=zh_TW",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-7f73bb5316",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "宏匯廣場",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@513vgbqo",
+    "lineUrl": "https://line.me/R/ti/p/@513vgbqo",
+    "facebookUrl": "https://www.facebook.com/funbox.honhui",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-271fc2cf8f",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "桃園環球A19",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@403qwxdn",
+    "lineUrl": "https://line.me/R/ti/p/@403qwxdn",
+    "facebookUrl": "https://www.facebook.com/profile.php?id=100083960592067",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-3030087ce6",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "竹北遠東",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@642vdyvq",
+    "lineUrl": "https://line.me/R/ti/p/@642vdyvq",
+    "facebookUrl": "https://www.facebook.com/ZhubeiFunbox/?locale=zh_TW",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-227b71957b",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "新竹享平方",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@062qoqex",
+    "lineUrl": "https://line.me/R/ti/p/@062qoqex",
+    "facebookUrl": "https://www.facebook.com/share/193j7smii9/?mibextid=wwXIfr",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-25c255c001",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "新店裕隆城",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@491uicsm",
+    "lineUrl": "https://line.me/R/ti/p/@491uicsm",
+    "facebookUrl": "https://www.facebook.com/share/19E9UZWhK9/?mibextid=wwXIfr",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-0f370433fc",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "南港LaLaport",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@924ngwfb",
+    "lineUrl": "https://line.me/R/ti/p/@924ngwfb",
+    "facebookUrl": "https://www.facebook.com/share/14jPaVWXoLJ/?mibextid=wwXlfr",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-d807e640e9",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "遠東大巨蛋",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@248eexma",
+    "lineUrl": "https://line.me/R/ti/p/@248eexma",
+    "facebookUrl": "https://reurl.cc/MW3NdL",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-txg-funbox-zhongyou",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "台中中友",
+    "aliases": [
+      "中友",
+      "Funbox 台中中友店"
+    ],
+    "address": "台中市北區三民路三段161號B棟7樓",
+    "phone": "04-2225-9107",
+    "lineId": "@815dstuy",
+    "lineUrl": "https://line.me/R/ti/p/@815dstuy",
+    "facebookUrl": "https://www.facebook.com/p/Funbox-%E5%8F%B0%E4%B8%AD%E4%B8%AD%E5%8F%8B-100063893358626/",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-txg-funbox-fengyuan-pacific",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "豐原太平洋",
+    "aliases": [
+      "豐原太平洋百貨",
+      "太平洋豐原"
+    ],
+    "address": "台中市豐原區復興路2號5樓",
+    "phone": "04-2520-0529",
+    "lineId": "@094mvrhb",
+    "lineUrl": "https://line.me/R/ti/p/@094mvrhb",
+    "facebookUrl": "https://www.facebook.com/profile.php?id=61592589610506",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-txg-funbox-far-east",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "台中遠東",
+    "aliases": [
+      "台中遠百",
+      "遠東百貨台中店"
+    ],
+    "address": "台中市西屯區台灣大道三段251號5樓",
+    "phone": "04-2259-1960",
+    "lineId": "@147vfxjr",
+    "lineUrl": "https://line.me/R/ti/p/@147vfxjr",
+    "facebookUrl": "https://www.facebook.com/share/1EZCDU6tF1/?mibextid=wwXIfr",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-txg-funbox-guangsan-sogo",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "廣三SOGO",
+    "aliases": [
+      "廣三 SOGO",
+      "SOGO台中"
+    ],
+    "address": "台中市西區台灣大道二段459號8樓",
+    "phone": "04-2319-0128",
+    "lineId": "@526bsjmb",
+    "lineUrl": "https://line.me/R/ti/p/@526bsjmb",
+    "facebookUrl": "https://www.facebook.com/share/1JaCvYo7ao/",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-dd72260233",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "台中三越",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@833rhkmr",
+    "lineUrl": "https://line.me/R/ti/p/@833rhkmr",
+    "facebookUrl": "https://www.facebook.com/profile.php?id=61591770278850&locale=zh_TW",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-c80d907490",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "嘉義遠東",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@gno1826d",
+    "lineUrl": "https://line.me/R/ti/p/@gno1826d",
+    "facebookUrl": "https://www.facebook.com/profile.php?id=61592768918548",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-0ce9115bff",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "嘉義耐斯",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@121vsdww",
+    "lineUrl": "https://line.me/R/ti/p/@121vsdww",
+    "facebookUrl": "https://www.facebook.com/profile.php?id=61591841012874",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-c87660ee28",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "嘉義三越",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@zhj4962p",
+    "lineUrl": "https://line.me/R/ti/p/@zhj4962p",
+    "facebookUrl": "https://www.facebook.com/share/1ELX2AJ1ue/?mibextid=wwXIfr",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-txg-funbox-new-era",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "台中新時代",
+    "aliases": [
+      "新時代",
+      "台中新時代購物中心"
+    ],
+    "address": "台中市東區復興路四段186號7樓",
+    "phone": "04-2224-1809",
+    "lineId": "@hdg3289a",
+    "lineUrl": "https://line.me/R/ti/p/@hdg3289a",
+    "facebookUrl": "https://www.facebook.com/share/1J3PLMbDSN/?mibextid=wwXIfr",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-txg-funbox-wenxin-showtime",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "文心秀泰",
+    "aliases": [
+      "秀泰文心店",
+      "文心秀泰生活"
+    ],
+    "address": "台中市南屯區文心南路289號4樓",
+    "phone": "04-2473-4289",
+    "lineId": "@605dilqq",
+    "lineUrl": "https://line.me/R/ti/p/@605dilqq",
+    "facebookUrl": "https://www.facebook.com/share/19F2BoUzUv/?mibextid=wwXIfr",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-txg-funbox-lihpao-1",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "麗寶一期",
+    "aliases": [
+      "麗寶樂園一期"
+    ],
+    "address": "台中市后里區福容路201號A區2樓（店號2107）",
+    "phone": "04-2558-7833",
+    "lineId": "@829adhop",
+    "lineUrl": "https://line.me/R/ti/p/@829adhop",
+    "facebookUrl": "https://www.facebook.com/profile.php?id=61592814215979&locale=zh_TW",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-txg-funbox-mitsui-port",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "台中港三井",
+    "aliases": [
+      "台中港三井二期 Outlet",
+      "MITSUI OUTLET PARK 台中港"
+    ],
+    "address": "台中市梧棲區台灣大道十段166號1樓",
+    "phone": "04-2656-0153",
+    "lineId": "@816xpruh",
+    "lineUrl": "https://line.me/R/ti/p/@816xpruh",
+    "facebookUrl": "https://www.facebook.com/share/1Jj8ybhtUR/?mibextid=wwXIfr",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-txg-funbox-lalaport",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "台中Lalaport",
+    "aliases": [
+      "台中 lalaport",
+      "LaLaport台中"
+    ],
+    "address": "台中市東區進德路600號3樓",
+    "phone": "04-2215-3530",
+    "lineId": "@620dfrfm",
+    "lineUrl": "https://line.me/R/ti/p/@620dfrfm",
+    "facebookUrl": "https://www.facebook.com/profile.php?id=61591544926718",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-txg-funbox-hanshin-intercontinental",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "台中漢神洲際",
+    "aliases": [
+      "漢神洲際",
+      "漢神洲際購物廣場"
+    ],
+    "address": "台中市北屯區崇德路三段865號5樓（5A24）",
+    "phone": "04-2421-4427",
+    "lineId": "@218xxrbx",
+    "lineUrl": "https://line.me/R/ti/p/@218xxrbx",
+    "facebookUrl": "https://www.facebook.com/profile.php?id=61592777043158",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-16088c7641",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "高雄漢神",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@897upgfr",
+    "lineUrl": "https://line.me/R/ti/p/@897upgfr",
+    "facebookUrl": "https://www.facebook.com/share/1LrCbM7p9k/?mibextid=wwXIfr",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-8c4f858c5f",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "崇光高雄",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@845nallq",
+    "lineUrl": "https://line.me/R/ti/p/@845nallq",
+    "facebookUrl": "https://www.facebook.com/share/19E7invurA/?mibextid=wwXIfr",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-06cda31595",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "屏東太平洋",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@ess7711t",
+    "lineUrl": "https://line.me/R/ti/p/@ess7711t",
+    "facebookUrl": "https://www.facebook.com/share/1bsqHbH5yg/?mibextid=wwXIfr",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-9b9bfabb84",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "台南遠百",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@373rxyat",
+    "lineUrl": "https://line.me/R/ti/p/@373rxyat",
+    "facebookUrl": "https://www.facebook.com/share/19JiPRLTe3/?mibextid=wwXIfr",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-d46ff6843a",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "高雄大遠百",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@204edsnm",
+    "lineUrl": "https://line.me/R/ti/p/@204edsnm",
+    "facebookUrl": "https://www.facebook.com/share/1Asnih4jRc/?mibextid=wwXIfr",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-35582992a5",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "台南西門",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@344rybaf",
+    "lineUrl": "https://line.me/R/ti/p/@344rybaf",
+    "facebookUrl": "https://www.facebook.com/share/1EgGWhL2my/?mibextid=wwXIfr",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-1a5d90f6df",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "漢神巨蛋",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@ldh6278d",
+    "lineUrl": "https://line.me/R/ti/p/@ldh6278d",
+    "facebookUrl": "https://www.facebook.com/share/1JMvwfTqpu/?mibextid=wwXIfr",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-9b348a6b34",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "高雄左營",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@obz8096L",
+    "lineUrl": "https://line.me/R/ti/p/@obz8096L",
+    "facebookUrl": "https://www.facebook.com/100057115973730/",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-997790c91f",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "夢時代二館",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@ott3541o",
+    "lineUrl": "https://line.me/R/ti/p/@ott3541o",
+    "facebookUrl": "https://www.facebook.com/share/1iiWSKHcvP/?mibextid=wwXIfr",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-e4a7287d02",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "屏東環球",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@xhi2668e",
+    "lineUrl": "https://line.me/R/ti/p/@xhi2668e",
+    "facebookUrl": "https://m.facebook.com/profile.php?id=61591804545442",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-c67a62784f",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "南紡購物中心",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@msq0107x",
+    "lineUrl": "https://line.me/R/ti/p/@msq0107x",
+    "facebookUrl": "https://www.facebook.com/profile.php?id=100057043616291&mibextid=wwXIfr&mibextid=wwXIfr",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-a0f99ab62e",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "澎坊商場",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@185ybuaz",
+    "lineUrl": "https://line.me/R/ti/p/@185ybuaz",
+    "facebookUrl": "https://www.facebook.com/share/1G6GUr5oYt/?mibextid=wwXIfr",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-2410c02e2d",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "高雄大立",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@917hatdy",
+    "lineUrl": "https://line.me/R/ti/p/@917hatdy",
+    "facebookUrl": "https://www.facebook.com/share/1CLmgDDbFw/",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-31d202ceb5",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "義大二館",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@bxd6822t",
+    "lineUrl": "https://line.me/R/ti/p/@bxd6822t",
+    "facebookUrl": "https://www.facebook.com/share/1BwVM2Q3UP",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-9756aa732a",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "義享天地",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@777nkbeo",
+    "lineUrl": "https://line.me/R/ti/p/@777nkbeo",
+    "facebookUrl": "https://www.facebook.com/share/1EGnZY5Wad/",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-85309fdc6b",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "大魯閣新光",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@fko7562c",
+    "lineUrl": "https://line.me/R/ti/p/@fko7562c",
+    "facebookUrl": "https://www.facebook.com/share/1EhNbSScWd/",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-7f50b41f08",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "台南三井",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@212isujx",
+    "lineUrl": "https://line.me/R/ti/p/@212isujx",
+    "facebookUrl": "https://www.facebook.com/share/1981qXi5wG/",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-06a6654a34",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "花蓮遠東",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@ymc0892z",
+    "lineUrl": "https://line.me/R/ti/p/@ymc0892z",
+    "facebookUrl": "https://www.facebook.com/share/1Bq2zmw7FK/?mibextid=wwXIfr",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  },
+  {
+    "storeId": "tw-tw-unk-funbox-41451d7006",
+    "regionId": "TW-UNK",
+    "regionName": "待指定縣市",
+    "brand": "Funbox",
+    "name": "台東秀泰",
+    "aliases": [],
+    "address": null,
+    "phone": null,
+    "lineId": "@438glrqv",
+    "lineUrl": "https://line.me/R/ti/p/@438glrqv",
+    "facebookUrl": "https://www.facebook.com/share/1BTxAEJsEC/?mibextid=wwXIfr",
+    "sourceType": "google-sheets-import",
+    "verificationStatus": "user-provided-not-individually-verified",
+    "sourceUrls": [
+      "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0"
+    ],
+    "lastVerifiedAt": null,
+    "active": true,
+    "regionAssignmentStatus": "needs-city-column"
+  }
 ]

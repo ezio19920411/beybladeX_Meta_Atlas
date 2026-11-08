@@ -1,3 +1,16 @@
 [
-  {"regionId":"TW-TXG","country":"TW","name":"台中市","enabled":true,"default":true}
+  {
+    "regionId": "TW-TXG",
+    "country": "TW",
+    "name": "台中市",
+    "enabled": true,
+    "default": true
+  },
+  {
+    "regionId": "TW-UNK",
+    "country": "TW",
+    "name": "待指定縣市",
+    "enabled": true,
+    "default": false
+  }
 ]
