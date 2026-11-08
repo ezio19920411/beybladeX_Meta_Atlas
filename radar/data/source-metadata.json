@@ -1,19 +1,25 @@
 {
   "dataset": "Funbox store social links",
-  "version": "2026-11-08T12:51:40+08:00",
-  "providedBy": "Google Sheets (user-maintained)",
-  "storeCount": 68,
-  "regionCount": 1,
+  "version": "2026-11-08-v0.4.1",
+  "providedBy": "user",
+  "storeCount": 78,
+  "regionCount": 17,
   "defaultRegion": "TW-TXG",
   "fields": [
     "store name",
     "Facebook page URL",
-    "LINE official account ID",
-    "city (optional)"
+    "LINE official account ID"
   ],
-  "verification": "Imported from user-maintained Google Sheet. Facebook and LINE links are not automatically verified as active or official.",
+  "verification": "Google Sheet rows and public-directory supplements are user/source-provided; links and official-account status have not been individually verified.",
+  "notes": [
+    "Facebook share/reurl links may redirect; they are preserved as provided with URL normalization.",
+    "LINE friend URL is generated from the provided LINE Official Account ID using line.me/R/ti/p/.",
+    "Taichung is the default display region. All listed regions are available in the region selector."
+  ],
   "sourceSheetUrl": "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0",
-  "sourceCsvUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQhwUDrSi-I3CEjVCCxY65oMLDalgsMZgmDKg7hCbnSy8jcJVMAFtRoDrjc3ctFhf8UR161_Q3_cZIi/pub?output=csv",
-  "importedAt": "2026-11-08T12:51:40+08:00",
-  "regionMapping": "Existing region mapping is retained by matching store name. New stores should include an optional 縣市 column; otherwise they are assigned to 待指定縣市."
+  "regionMapping": "Region assignment inferred from store name or mall location because original table did not include a city/county column.",
+  "googleSheetStoreCount": 68,
+  "supplementalStoreCount": 10,
+  "supplementalSource": "https://uxux11.github.io/funbox-line/",
+  "supplementalNotes": "Google Sheet remains the canonical source for the user-provided directory. Ten additional location rows were observed in UXUX11 public LINE directory. One additional location (台東家樂福) shares LINE ID @438glrqv with 台東秀泰. Supplemental entries are preserved separately so the Google Sheet sync does not overwrite them."
 }

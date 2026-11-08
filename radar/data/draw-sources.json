@@ -1,0 +1,58 @@
+{
+  "checkedAt": "2026-11-08T12:00:00+08:00",
+  "eventsImported": false,
+  "message": "External event pages are included as discovery links only. No unverified or expired external rows are marked as active in this site.",
+  "sources": [
+    {
+      "id": "uxux11",
+      "name": "UXUX11｜Funbox LINE／抽選整理",
+      "url": "https://uxux11.github.io/funbox-line/",
+      "role": "LINE contact directory + current-batch draw list",
+      "lineDirectoryRows": 77,
+      "drawBatchStoreCount": 69,
+      "notSellingStoreCount": 9,
+      "lastPageUpdate": "2026-11-06T16:17:00+08:00",
+      "batchStartDate": "2026-11-06",
+      "batchEndDate": "2026-11-07",
+      "snapshotStatus": "expired",
+      "notSellingStoreNames": [
+        "Funbox-台中遠東",
+        "Funbox-遠百信義A13",
+        "Funbox-台中遠雄店",
+        "Funbox-樹林秀泰",
+        "Funbox-高雄大立",
+        "Funbox-新屏家樂福",
+        "Funbox-澎坊商場",
+        "來玩聚-台東家樂福",
+        "來玩聚-台北地下街店"
+      ],
+      "observations": [
+        "頁面可見店名及 LINE ID，好友連結由 LINE ID 對應 line.me 好友入口。",
+        "抽選資料可見店名、商品型號／名稱、抽選開始及購買資格時間。",
+        "部分時間明確標記為依門市營業時間推估。",
+        "公開頁面沒有說明後台取得資料的方法；可能是人工或半自動整理，無法證實。"
+      ],
+      "sourceType": "third-party-public-directory"
+    },
+    {
+      "id": "beybuilder",
+      "name": "BeyBuilder X｜全台抽選目錄",
+      "url": "https://beybuilder.5-seven.dog/draw/",
+      "role": "historical draw catalogue + product/store aggregation",
+      "lastIndexedAt": "2026-10-08T12:14:02+08:00",
+      "indexedItemCount": 750,
+      "indexedStoreCount": 78,
+      "indexedProductCount": 40,
+      "currentBatchStoreCountAtSnapshot": 63,
+      "previousBatchLinksReportedStale": 62,
+      "snapshotStatus": "historical",
+      "observations": [
+        "可依縣市、店家及商品篩選。",
+        "資料包含多批商品及門市紀錄，可作商品名稱與歷史紀錄參考。",
+        "頁面明確提醒部分舊批次連結已無法抽選。",
+        "頁面沒有公開可核實的自動蒐集程式或完整來源說明。"
+      ],
+      "sourceType": "third-party-public-directory"
+    }
+  ]
+}

@@ -3,169 +3,152 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#11150f">
-  <meta name="description" content="整合誠品線上與台中 Funbox 門市的戰鬥陀螺 X 抽選、販售公告與購買入口。">
-  <title>BEYBLADE X｜搶購雷達</title>
+  <meta name="theme-color" content="#f6f7f4">
+  <meta name="description" content="整合 Funbox 各門市 LINE、戰鬥陀螺 X 抽選活動與誠品線上購買入口。">
+  <title>BEYBLADE X｜搶購助手</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/icon-192.png">
-  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/styles.css?v=0.4.1">
 </head>
 <body>
-  <div class="app-shell">
+  <div class="app-shell" id="top">
     <header class="topbar">
       <a class="brand" href="#top" aria-label="回到首頁">
         <span class="brand-mark">X</span>
-        <span class="brand-copy"><strong>BEYBLADE X</strong><small>RADAR / 搶購助手</small></span>
+        <span class="brand-copy"><strong>BEYBLADE X</strong><small>搶購助手</small></span>
       </a>
       <div class="topbar-right">
-        <span class="mode-chip"><i></i> 本機資料模式</span>
-        <button class="icon-button" id="installButton" type="button" hidden aria-label="安裝到主畫面" title="安裝到主畫面">＋</button>
+        <span class="data-state" id="dataState">資料載入中…</span>
+        <button class="icon-button" id="settingsOpen" type="button" aria-label="設定與備份" title="設定與備份">⚙</button>
       </div>
     </header>
 
-    <main id="top">
-      <section class="hero">
-        <div class="hero-grid"></div>
-        <div class="hero-content">
-          <div class="eyebrow"><span></span> BEYBLADE X PURCHASE RADAR <span class="eyebrow-line"></span></div>
-          <h1>想要的陀螺，<em>不要漏掉。</em></h1>
-          <p>誠品線上 × Funbox 台中門市<br class="mobile-only"> 抽選入口、販售公告與商品追蹤集中管理。</p>
-          <div class="hero-meta">
-            <span class="meta-pill"><b id="heroRegion">台中市</b> / 目前地區</span>
-            <span class="meta-pill">資料整理基準 <b id="updatedAt">載入中</b></span>
-          </div>
+    <main>
+      <section class="quick-controls" aria-label="搜尋與地區">
+        <label class="region-control">
+          <span>地區</span>
+          <select id="regionSelect" aria-label="選擇縣市"></select>
+        </label>
+        <div class="search-control">
+          <span class="search-icon" aria-hidden="true">⌕</span>
+          <input id="searchInput" type="search" placeholder="搜尋門市或商品型號" autocomplete="off">
+          <button id="clearSearch" type="button" aria-label="清除搜尋" hidden>×</button>
         </div>
-        <div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div>
-        <div class="hero-x">X</div>
-      </section>
-
-      <section class="stats-row" aria-label="資料摘要">
-        <article class="stat-card"><span class="stat-label">門市候選資料</span><strong id="statStores">—</strong><small>官方名錄與待核對店點</small></article>
-        <article class="stat-card"><span class="stat-label">追蹤商品</span><strong id="statProducts">—</strong><small>誠品線上商品清單</small></article>
-        <article class="stat-card"><span class="stat-label">待處理活動</span><strong id="statEvents">—</strong><small>依你匯入的公告計算</small></article>
       </section>
 
       <nav class="main-tabs" aria-label="主要功能">
-        <button class="tab-button active" data-tab="overview" type="button"><span>01</span>總覽</button>
-        <button class="tab-button" data-tab="funbox" type="button"><span>02</span>Funbox 門市</button>
-        <button class="tab-button" data-tab="eslite" type="button"><span>03</span>誠品商品</button>
-        <button class="tab-button" data-tab="manage" type="button"><span>04</span>資料管理</button>
+        <button class="main-tab active" type="button" data-tab="funbox">Funbox 門市／抽選</button>
+        <button class="main-tab" type="button" data-tab="eslite">誠品線上</button>
       </nav>
 
-      <section class="filter-bar" id="globalFilters">
-        <label class="field compact-field"><span>地區</span><select id="regionSelect" aria-label="選擇縣市"></select></label>
-        <label class="field compact-field store-filter"><span>門市</span><select id="storeSelect" aria-label="選擇門市"></select></label>
-        <label class="field search-field"><span>搜尋商品 / 門市</span><div class="search-wrap"><span class="search-icon">⌕</span><input id="searchInput" type="search" placeholder="例如 BX-53、UX-17、中友" autocomplete="off"></div></label>
-        <button class="clear-filter" id="clearFilters" type="button">清除</button>
-      </section>
-
-      <section class="view active" id="view-overview">
-        <div class="section-heading"><div><div class="section-kicker">QUICK OVERVIEW</div><h2>今日搶購總覽</h2><p>先看需要處理的公告，再進入商品頁或抽選頁。</p></div><span class="live-label"><i></i> 資料以人工核對為準</span></div>
-        <div class="notice-banner">
-          <div class="notice-icon">!</div><div><strong>Funbox 抽選方式請逐店確認</strong><p>目前研究資料指出部分門市自 2026/10/12 起改為現場上架，但尚未取得所有台中門市一致適用的官方公告。舊抽選連結不可直接視為仍開放。</p></div>
-          <a href="https://beybladehub.app/blog/funbox-online-lottery-2026-07" target="_blank" rel="noopener">查看政策整理 ↗</a>
-        </div>
-        <div class="overview-grid">
-          <div class="panel">
-            <div class="panel-head"><div><div class="section-kicker">ACTION QUEUE</div><h3>待處理抽選 / 販售</h3></div><button class="text-button" data-go="funbox" type="button">查看全部 →</button></div>
-            <div id="overviewEvents" class="empty-state compact-empty"><div class="empty-symbol">◈</div><strong>目前沒有已核實的開放活動</strong><p>你可以在「Funbox 門市」或「資料管理」貼上門市公告與抽選網址，建立活動紀錄。</p><button class="button button-dark" data-go="manage" type="button">＋ 新增活動資料</button></div>
+      <section class="view active" id="view-funbox">
+        <section class="section-block" id="storesSection">
+          <div class="section-heading">
+            <div><h1>門市 LINE</h1><p>選擇門市，直接開啟 LINE 加好友</p></div>
+            <strong class="count" id="storeCount">— 家</strong>
           </div>
-          <div class="panel">
-            <div class="panel-head"><div><div class="section-kicker">ESLITE WATCH</div><h3>誠品追蹤商品</h3></div><button class="text-button" data-go="eslite" type="button">查看商品 →</button></div>
-            <div id="overviewProducts"></div>
+          <div class="store-list" id="storeList" aria-live="polite">
+            <div class="empty-state">門市資料載入中…</div>
           </div>
-        </div>
-        <div class="panel source-panel">
-          <div class="panel-head"><div><div class="section-kicker">REFERENCE LINKS</div><h3>常用官方 / 參考入口</h3></div></div>
-          <div class="reference-grid">
-            <a class="reference-link" href="https://shop.funbox.com.tw/pages/門市資訊" target="_blank" rel="noopener"><span class="reference-icon">F</span><span><b>Funbox 官方門市資訊</b><small>門市名稱、地址與電話</small></span><i>↗</i></a>
-            <a class="reference-link" href="https://www.facebook.com/FunboxToy/" target="_blank" rel="noopener"><span class="reference-icon">f</span><span><b>Funbox Facebook</b><small>官方公告入口，個別門市仍需確認</small></span><i>↗</i></a>
-            <a class="reference-link" href="https://beybuilder.5-seven.dog/draw/" target="_blank" rel="noopener"><span class="reference-icon">X</span><span><b>BeyBuilder 抽選目錄</b><small>第三方索引，需回原公告核對</small></span><i>↗</i></a>
-            <a class="reference-link" href="https://www.eslite.com/" target="_blank" rel="noopener"><span class="reference-icon">誠</span><span><b>誠品線上購物</b><small>商品頁與實際結帳狀態以官方為準</small></span><i>↗</i></a>
+          <p class="small-note">「已開啟」只代表曾點擊連結，不代表已成功加入好友。</p>
+        </section>
+
+        <section class="section-block draw-section" id="drawSection">
+          <div class="section-heading">
+            <div><h2>本期抽選</h2><p id="drawUpdated">等待活動資料</p></div>
+            <div class="draw-heading-links"><a class="text-link" href="https://uxux11.github.io/funbox-line/" target="_blank" rel="noopener">LINE／當期抽選 ↗</a><a class="text-link" id="directoryLink" href="https://beybuilder.5-seven.dog/draw/" target="_blank" rel="noopener">商品／歷史目錄 ↗</a></div>
           </div>
-        </div>
+          <div class="draw-controls" id="drawControls" hidden>
+            <label class="compact-select"><span class="sr-only">商品型號</span><select id="productFilter"><option value="all">全部商品</option></select></label>
+            <label class="compact-select"><span class="sr-only">抽選時間</span><select id="timeFilter"><option value="all">全部時間</option></select></label>
+            <div class="mode-toggle" role="group" aria-label="抽選模式">
+              <button type="button" class="mode-button active" data-mode="manual">手動</button>
+              <button type="button" class="mode-button" data-mode="queue">連續</button>
+            </div>
+          </div>
+          <p class="mode-description" id="modeDescription" hidden>連續模式：開啟一筆活動，回到本頁確認後再進入下一筆。</p>
+          <div class="event-list" id="eventList" aria-live="polite"></div>
+          <details class="fold-panel" id="notSellingPanel">
+            <summary><span>本週未販售門市</span><span id="notSellingMeta">尚無完整名單</span></summary>
+            <div class="fold-content" id="notSellingContent">目前沒有經來源確認的完整未販售名單。沒有出現在抽選清單，不代表該門市沒有販售。</div>
+          </details>
+          <details class="fold-panel" id="endedPanel" hidden>
+            <summary><span>已結束活動</span><span id="endedCount">0 筆</span></summary>
+            <div class="event-list ended-list" id="endedList"></div>
+          </details>
+        </section>
       </section>
 
-      <section class="view" id="view-funbox">
-        <div class="section-heading"><div><div class="section-kicker">FUNBOX STORE NETWORK</div><h2>Funbox 門市與抽選</h2><p>先選門市加入 LINE，再從 Facebook 公告或活動卡片進入抽選頁。</p></div><button class="button button-primary" id="addEventTop" type="button">＋ 新增抽選活動</button></div>
-        <div class="subtabs" id="funboxSubtabs"><button class="subtab active" data-subtab="events" type="button">抽選 / 販售活動 <b id="eventCount">0</b></button><button class="subtab" data-subtab="stores" type="button">門市清單 <b id="storeCount">0</b></button></div>
-        <div id="funboxEventsPanel">
-          <div class="toolbar-row"><div class="filter-chips" id="eventStatusFilters"><button class="chip active" data-status="all" type="button">全部</button><button class="chip" data-status="open" type="button">進行中</button><button class="chip" data-status="upcoming" type="button">尚未開始</button><button class="chip" data-status="needs-verification" type="button">待確認</button><button class="chip" data-status="closed" type="button">已結束</button></div><label class="check-inline"><input id="queueMode" type="checkbox"> 逐項處理模式</label></div>
-          <div id="eventList" class="card-list"></div>
-        </div>
-        <div id="funboxStoresPanel" hidden>
-          <div class="store-summary"><span><b id="officialStoreCount">0</b> 家官方名錄店點</span><span><b id="candidateStoreCount">0</b> 家補充候選店點</span><span>LINE 帳號均需人工複核</span></div>
-          <div id="storeList" class="store-grid"></div>
-        </div>
+      <section class="view" id="view-eslite" hidden>
+        <section class="section-block">
+          <div class="section-heading">
+            <div><h1>誠品線上</h1><p>追蹤商品集中在這裡，庫存以誠品實際頁面為準</p></div>
+            <a class="text-link" href="https://www.eslite.com/" target="_blank" rel="noopener">誠品官網 ↗</a>
+          </div>
+          <div class="product-list" id="productList" aria-live="polite"></div>
+        </section>
       </section>
-
-      <section class="view" id="view-eslite">
-        <div class="section-heading"><div><div class="section-kicker">ESLITE ONLINE</div><h2>誠品商品追蹤</h2><p>集中保存型號、商品網址與你最後一次人工確認的價格 / 販售狀態。</p></div><button class="button button-primary" id="addProductTop" type="button">＋ 新增商品</button></div>
-        <div class="monitor-note"><span class="monitor-dot"></span><div><b>目前為手動核對版，尚未連接自動庫存監控</b><p>GitHub Pages 靜態網頁無法直接讀取誠品跨網域的即時庫存。按「更新核對資料」可記錄你在官方頁面看到的結果；後續再加入伺服器端排程。</p></div></div>
-        <div id="productList" class="product-grid"></div>
-      </section>
-
-      <section class="view" id="view-manage">
-        <div class="section-heading"><div><div class="section-kicker">DATA CONTROL</div><h2>資料管理</h2><p>加入各店最新公告、整理你想追蹤的商品，資料保存在目前這台裝置的瀏覽器。</p></div></div>
-        <div class="manage-grid">
-          <div class="panel manage-card"><div class="panel-head"><div><div class="section-kicker">DRAW EVENT</div><h3>新增抽選 / 販售活動</h3></div><span class="panel-icon">＋</span></div><p class="panel-description">貼上門市 Facebook 公告與官方抽選網址。沒有確認的資訊請留白並標為待確認。</p><button class="button button-primary full-width" id="addEventButton" type="button">建立活動資料</button></div>
-          <div class="panel manage-card"><div class="panel-head"><div><div class="section-kicker">ESLITE PRODUCT</div><h3>新增誠品商品</h3></div><span class="panel-icon">◇</span></div><p class="panel-description">新增想搶的 BX / UX / CX 商品及誠品商品頁網址，之後可在商品區更新人工核對結果。</p><button class="button button-primary full-width" id="addProductButton" type="button">新增追蹤商品</button></div>
-          <div class="panel manage-card"><div class="panel-head"><div><div class="section-kicker">BACKUP</div><h3>備份 / 還原資料</h3></div><span class="panel-icon">⇅</span></div><p class="panel-description">匯出你的活動、商品及處理進度，換手機或清除瀏覽器資料前記得備份。</p><div class="button-row"><button class="button button-dark" id="exportButton" type="button">匯出 JSON</button><label class="button button-ghost file-button">匯入 JSON<input id="importInput" type="file" accept="application/json"></label></div></div>
-          <div class="panel manage-card"><div class="panel-head"><div><div class="section-kicker">NOTIFICATIONS</div><h3>頁面通知</h3></div><span class="panel-icon">♧</span></div><p class="panel-description">允許通知後，可在本頁開啟期間收到操作提醒。靜態網站目前不支援關閉頁面後的背景監控推播。</p><button class="button button-dark full-width" id="enableNotifications" type="button">啟用瀏覽器通知</button><small class="field-help" id="notificationStatus">尚未設定通知權限</small></div>
-        </div>
-        <div class="panel data-disclaimer"><b>資料使用與安全</b><p>本網站不會要求或保存你的誠品帳號、LINE 密碼、Cookie 或驗證碼。官方抽選、登入、購買及付款都由你在官方頁面自行完成。活動與商品的個人新增資料目前只存在本機瀏覽器，尚未同步到 GitHub 或雲端。</p><button class="text-button danger-text" id="resetLocalButton" type="button">清除本機自訂資料</button></div>
-      </section>
-
-      <footer class="footer"><div class="footer-brand">BEYBLADE <b>X</b> RADAR</div><p>非 Funbox、誠品或 Takara Tomy 官方服務。資料需以各官方頁面最新公告為準。</p><div class="footer-bottom"><span>Prototype v0.1.0</span><span id="footerDate">—</span><a href="spec.md" target="_blank">專案規格 ↗</a></div></footer>
     </main>
+
+    <footer class="app-footer">
+      <span>BEYBLADE X RADAR <b>V0.4.1</b></span>
+      <span id="footerMeta">門市資料以同步檔案為準</span>
+    </footer>
   </div>
 
-  <dialog id="eventDialog" class="modal">
-    <form id="eventForm" method="dialog">
-      <div class="modal-head"><div><div class="section-kicker">NEW DRAW EVENT</div><h2>新增抽選 / 販售活動</h2></div><button class="modal-close" type="button" data-close="eventDialog" aria-label="關閉">×</button></div>
+  <dialog id="settingsDialog" class="dialog">
+    <div class="dialog-head"><div><span class="kicker">ADVANCED</span><h2>設定與備份</h2></div><button class="close-button" type="button" data-close="settingsDialog" aria-label="關閉">×</button></div>
+    <p class="dialog-intro">日常使用不需要進入這裡。Google Sheet 負責同步門市；活動及誠品商品資料目前由資料檔提供。</p>
+    <div class="settings-list">
+      <button class="settings-row" id="exportButton" type="button"><span><b>匯出個人紀錄</b><small>備份抽選進度、追蹤商品與點擊紀錄</small></span><strong>↓</strong></button>
+      <label class="settings-row import-row"><span><b>匯入個人紀錄</b><small>從 JSON 還原備份</small></span><strong>↑</strong><input id="importInput" type="file" accept="application/json"></label>
+      <button class="settings-row" id="clearLineClicks" type="button"><span><b>重設 LINE 點擊紀錄</b><small>重新顯示「＋ 加好友」</small></span><strong>↺</strong></button>
+      <button class="settings-row" id="enableNotifications" type="button"><span><b>瀏覽器通知</b><small id="notificationStatus">尚未開啟；僅支援本頁前景提醒</small></span><strong>♧</strong></button>
+      <button class="settings-row" id="addEventButton" type="button"><span><b>手動補登抽選活動</b><small>僅作來源擷取失敗時的備用方式</small></span><strong>＋</strong></button>
+      <button class="settings-row" id="addProductButton" type="button"><span><b>手動新增誠品商品</b><small>新增想追蹤的商品頁</small></span><strong>＋</strong></button>
+    </div>
+    <p class="settings-footnote">本網站不會取得你的 LINE 或誠品密碼，也不會代替你完成抽選、下單或付款。</p>
+  </dialog>
+
+  <dialog id="eventDialog" class="dialog">
+    <form id="eventForm">
+      <div class="dialog-head"><div><span class="kicker">DRAW EVENT</span><h2>補登抽選活動</h2></div><button class="close-button" type="button" data-close="eventDialog">×</button></div>
       <div class="form-grid">
-        <label class="field"><span>門市 *</span><select id="eventStore" required></select></label>
-        <label class="field"><span>商品型號 *</span><input id="eventCode" required placeholder="例如 UX-17"></label>
-        <label class="field span-2"><span>商品名稱</span><input id="eventName" placeholder="例如 隕星龍騎士"></label>
-        <label class="field"><span>販售方式</span><select id="eventMethod"><option value="line-draw">LINE 抽選</option><option value="in-store">現場販售</option><option value="preorder">預購</option><option value="online">線上販售</option><option value="unknown">待確認</option></select></label>
-        <label class="field"><span>活動狀態</span><select id="eventStatus"><option value="needs-verification">待確認</option><option value="open">進行中</option><option value="upcoming">尚未開始</option><option value="closed">已結束</option><option value="cancelled">已取消</option></select></label>
+        <label class="field full"><span>門市</span><select id="eventStore" required></select></label>
+        <label class="field"><span>商品型號</span><input id="eventCode" required placeholder="BX-53"></label>
+        <label class="field"><span>商品名稱</span><input id="eventName" placeholder="極限衝擊對戰組"></label>
         <label class="field"><span>開始時間</span><input id="eventStarts" type="datetime-local"></label>
         <label class="field"><span>截止時間</span><input id="eventEnds" type="datetime-local"></label>
-        <label class="field"><span>價格（可留白）</span><input id="eventPrice" type="number" min="0" placeholder="NT$"></label>
-        <label class="field"><span>限購規則（可留白）</span><input id="eventLimit" placeholder="以官方公告為準"></label>
-        <label class="field span-2"><span>Facebook / 原始公告網址</span><input id="eventAnnouncement" type="url" placeholder="https://www.facebook.com/..."></label>
-        <label class="field span-2"><span>官方抽選 / 購買網址</span><input id="eventDrawUrl" type="url" placeholder="https://..."></label>
-        <label class="field span-2"><span>備註 / 核對資訊</span><textarea id="eventNotes" rows="2" placeholder="例如：公告日期、是否確認本店仍採抽選、公告限購內容等"></textarea></label>
+        <label class="field"><span>方式</span><select id="eventMethod"><option value="line-draw">LINE 抽選</option><option value="in-store">現場販售</option><option value="preorder">預購</option><option value="online">線上販售</option><option value="unknown">待確認</option></select></label>
+        <label class="field"><span>狀態</span><select id="eventStatus"><option value="needs-verification">待確認</option><option value="open">進行中</option><option value="upcoming">尚未開始</option><option value="closed">已結束</option></select></label>
+        <label class="field full"><span>官方抽選網址</span><input id="eventDrawUrl" type="url" placeholder="https://..."></label>
+        <label class="field full"><span>Facebook 原始公告</span><input id="eventAnnouncement" type="url" placeholder="https://facebook.com/..."></label>
       </div>
-      <p class="form-footnote">請只填入可回到原始來源核對的資訊。新增後預設由你自行管理，不會被視為官方已驗證。</p>
-      <div class="modal-actions"><button class="button button-ghost" type="button" data-close="eventDialog">取消</button><button class="button button-primary" type="submit">儲存活動</button></div>
+      <div class="dialog-actions"><button class="button secondary-button" type="button" data-close="eventDialog">取消</button><button class="button primary-button" type="submit">儲存</button></div>
     </form>
   </dialog>
 
-  <dialog id="productDialog" class="modal">
-    <form id="productForm" method="dialog">
-      <div class="modal-head"><div><div class="section-kicker">ESLITE PRODUCT</div><h2 id="productDialogTitle">新增追蹤商品</h2></div><button class="modal-close" type="button" data-close="productDialog" aria-label="關閉">×</button></div>
+  <dialog id="productDialog" class="dialog">
+    <form id="productForm">
+      <div class="dialog-head"><div><span class="kicker">ESLITE PRODUCT</span><h2>新增誠品商品</h2></div><button class="close-button" type="button" data-close="productDialog">×</button></div>
       <div class="form-grid">
-        <label class="field"><span>商品型號 *</span><input id="productCode" required placeholder="例如 BX-53"></label>
-        <label class="field"><span>目前價格（可留白）</span><input id="productPrice" type="number" min="0" placeholder="NT$"></label>
-        <label class="field span-2"><span>商品名稱 *</span><input id="productName" required placeholder="商品中文名稱"></label>
-        <label class="field span-2"><span>誠品商品頁網址 *</span><input id="productUrl" type="url" required placeholder="https://www.eslite.com/product/..."></label>
-        <label class="field"><span>頁面販售狀態</span><select id="productStatus"><option value="unknown">尚未確認</option><option value="add-to-cart-visible">頁面可加入購物車</option><option value="sold-out-visible">頁面顯示缺貨</option><option value="preorder-visible">頁面顯示預購</option><option value="not-listed">頁面查無商品</option></select></label>
-        <label class="field"><span>核對時間</span><input id="productChecked" type="text" disabled placeholder="儲存時自動記錄"></label>
+        <label class="field"><span>商品型號</span><input id="productCode" required placeholder="UX-17"></label>
+        <label class="field"><span>商品名稱</span><input id="productName" required placeholder="隕星龍騎士"></label>
+        <label class="field full"><span>誠品商品網址</span><input id="productUrl" type="url" required placeholder="https://www.eslite.com/product/..."></label>
+        <label class="field"><span>參考價格</span><input id="productPrice" type="number" min="0" placeholder="非必填"></label>
       </div>
-      <p class="form-footnote">販售狀態是你最後一次查看商品頁時的紀錄，不代表當下即時庫存或保證能完成結帳。</p>
-      <div class="modal-actions"><button class="button button-ghost" type="button" data-close="productDialog">取消</button><button class="button button-primary" type="submit">儲存商品</button></div>
+      <div class="dialog-actions"><button class="button secondary-button" type="button" data-close="productDialog">取消</button><button class="button primary-button" type="submit">儲存</button></div>
     </form>
   </dialog>
 
-  <dialog id="confirmDialog" class="modal small-modal">
-    <div class="modal-head"><div><div class="section-kicker">DRAW CHECK</div><h2>你完成這次抽選了嗎？</h2></div><button class="modal-close" type="button" data-close="confirmDialog" aria-label="關閉">×</button></div>
-    <p id="confirmMessage">返回目錄不代表抽選成功，請依官方頁面結果自行確認。</p>
-    <div class="modal-actions stacked-actions"><button class="button button-primary" id="confirmComplete" type="button">我已確認完成</button><button class="button button-ghost" id="confirmPending" type="button">尚未完成，稍後處理</button></div>
+  <dialog id="progressDialog" class="dialog progress-dialog">
+    <div class="dialog-head"><div><span class="kicker">DRAW CHECK</span><h2>剛才的抽選處理好了嗎？</h2></div><button class="close-button" type="button" data-close="progressDialog">×</button></div>
+    <p id="progressMessage">返回本頁不代表抽選成功，請依官方頁面的結果確認。</p>
+    <div class="dialog-actions stacked-actions"><button class="button primary-button" id="markComplete" type="button">已完成，下一筆</button><button class="button secondary-button" id="markPending" type="button">尚未完成</button></div>
   </dialog>
 
-  <div class="toast-region" id="toastRegion" aria-live="polite"></div>
-  <script src="assets/js/app.js" defer></script>
+  <div id="toastRegion" class="toast-region" aria-live="polite"></div>
+  <script src="assets/js/app.js?v=0.4.1" defer></script>
 </body>
 </html>

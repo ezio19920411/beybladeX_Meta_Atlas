@@ -240,6 +240,31 @@ def parse_rows(csv_text: str, old_stores: list[dict[str, Any]], sheet_url: str) 
     return stores
 
 
+
+def merge_supplemental(sheet_stores: list[dict[str, Any]], data_dir: Path) -> list[dict[str, Any]]:
+    """Merge secondary public-directory locations without overwriting the user Sheet."""
+    path = data_dir / "stores-supplemental.json"
+    if not path.exists():
+        return list(sheet_stores)
+    supplemental = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(supplemental, list):
+        raise ValueError("stores-supplemental.json 必須是陣列。")
+    primary_names = {norm_name(s.get("name", "")) for s in sheet_stores}
+    primary_ids = {s.get("storeId") for s in sheet_stores}
+    result = list(sheet_stores)
+    seen_supp_names: set[str] = set()
+    for item in supplemental:
+        if not isinstance(item, dict) or not item.get("name") or not item.get("storeId"):
+            raise ValueError("stores-supplemental.json 含有缺少 name/storeId 的資料列。")
+        key = norm_name(item["name"])
+        if key in primary_names or key in seen_supp_names or item["storeId"] in primary_ids:
+            continue
+        # Shared LINE IDs are allowed: distinct locations can point to one official account.
+        result.append(item)
+        seen_supp_names.add(key)
+    return result
+
+
 def write_json(path: Path, data: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -267,13 +292,14 @@ def main() -> int:
     source_rows = list(csv.reader(io.StringIO(csv_text)))
     header_index, _, _ = find_header_row(source_rows)
     print(f"已在 CSV 第 {header_index + 1} 列找到真正的欄位標題（自動略過上方標題／空白列）。")
-    new_stores = parse_rows(csv_text, old_stores, args.sheet_url)
-    if len(new_stores) < args.minimum_rows:
-        raise ValueError(f"匯入只有 {len(new_stores)} 家，低於安全門檻 {args.minimum_rows} 家；為避免空白／錯誤 CSV 覆蓋原資料，已停止更新。")
-    if old_stores and len(new_stores) < max(args.minimum_rows, int(len(old_stores) * 0.5)):
-        raise ValueError(f"匯入筆數 {len(new_stores)} 家低於原資料 {len(old_stores)} 家的一半；已停止更新，請檢查試算表是否只發布部分範圍。")
+    sheet_stores = parse_rows(csv_text, old_stores, args.sheet_url)
+    if len(sheet_stores) < args.minimum_rows:
+        raise ValueError(f"匯入只有 {len(sheet_stores)} 家，低於安全門檻 {args.minimum_rows} 家；為避免空白／錯誤 CSV 覆蓋原資料，已停止更新。")
+    if old_stores and len(sheet_stores) < max(args.minimum_rows, int(min(len(old_stores), 100) * 0.5)):
+        raise ValueError(f"試算表匯入筆數 {len(sheet_stores)} 家低於安全門檻；已停止更新，請檢查是否只發布部分範圍。")
+    new_stores = merge_supplemental(sheet_stores, data_dir)
 
-    # Preserve existing region options and add regions seen in the sheet.
+    # Preserve existing region options and add regions seen in both primary and supplemental sources.
     region_by_id = {r.get("regionId"): r for r in old_regions}
     for store in new_stores:
         rid = store["regionId"]
@@ -296,6 +322,8 @@ def main() -> int:
         "version": imported_at,
         "providedBy": "Google Sheets (user-maintained)",
         "storeCount": len(new_stores),
+        "googleSheetStoreCount": len(sheet_stores),
+        "supplementalStoreCount": len(new_stores) - len(sheet_stores),
         "regionCount": len({s["regionId"] for s in new_stores}),
         "defaultRegion": metadata.get("defaultRegion", "TW-TXG"),
         "fields": ["store name", "Facebook page URL", "LINE official account ID", "city (optional)"],
@@ -332,7 +360,7 @@ def main() -> int:
             path.write_text(content, encoding="utf-8")
             changed_paths.append(str(path))
 
-    print(f"Google Sheets 門市同步完成：{len(new_stores)} 家／{len({s['regionId'] for s in new_stores})} 個地區")
+    print(f"Google Sheets 主資料：{len(sheet_stores)} 家；合併公開補充名單後：{len(new_stores)} 個門市據點／{len({s['regionId'] for s in new_stores})} 個地區")
     print(f"台中市門市：{sum(1 for s in new_stores if s['regionId'] == 'TW-TXG')} 家")
     print("更新檔案：" + (", ".join(changed_paths) if changed_paths else "資料沒有變動"))
     if any(s["regionId"] == "TW-UNK" for s in new_stores):

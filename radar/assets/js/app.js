@@ -1,4 +1,4 @@
-/* BEYBLADE X Radar - static-first MVP. No credentials or cookies are collected. */
+/* BEYBLADE X Radar v0.4.1 - merged store directory and external event sources. */
 (() => {
   'use strict';
 
@@ -7,609 +7,580 @@
     products: 'bxxr:v1:products',
     progress: 'bxxr:v1:progress',
     queue: 'bxxr:v1:queue-mode',
-    notification: 'bxxr:v1:notification'
+    notification: 'bxxr:v1:notification',
+    lineClicks: 'bxxr:v1:line-clicks'
   };
   const DEFAULT_REGION = 'TW-TXG';
-  const PRODUCT_STATUS = {
-    unknown: ['尚未確認', 'status-warning'],
-    'add-to-cart-visible': ['頁面可加入購物車', 'status-open'],
-    'sold-out-visible': ['頁面顯示缺貨', 'status-closed'],
-    'preorder-visible': ['頁面顯示預購', 'status-upcoming'],
-    'not-listed': ['頁面查無商品', 'status-closed']
-  };
-  const EVENT_STATUS = {
-    open: ['進行中', 'status-open'],
-    upcoming: ['尚未開始', 'status-upcoming'],
-    'needs-verification': ['待確認', 'status-warning'],
-    closed: ['已結束', 'status-closed'],
-    cancelled: ['已取消', 'status-cancelled'],
-    announced: ['已公告', 'status-warning']
-  };
-  const METHOD_LABEL = {
-    'line-draw': 'LINE 抽選',
-    'in-store': '現場販售',
-    preorder: '預購',
-    online: '線上販售',
-    other: '其他',
-    unknown: '方式待確認'
-  };
-
+  const DIRECTORY_URL = 'https://beybuilder.5-seven.dog/draw/';
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
-  const esc = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
   const safeUrl = value => {
-    try { const url = new URL(String(value)); return ['https:', 'http:'].includes(url.protocol) ? url.href : ''; }
+    try { const url = new URL(String(value || '')); return ['https:', 'http:'].includes(url.protocol) ? url.href : ''; }
     catch { return ''; }
   };
   const nowIso = () => new Date().toISOString();
-  const formatDate = value => {
-    if (!value) return '未提供';
-    const date = new Date(value);
-    if (Number.isNaN(date.getTime())) return '未提供';
-    return new Intl.DateTimeFormat('zh-TW', { timeZone: 'Asia/Taipei', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).format(date);
-  };
-  const formatFullDate = value => {
-    if (!value) return '尚未核對';
-    const date = new Date(value);
-    if (Number.isNaN(date.getTime())) return '尚未核對';
-    return new Intl.DateTimeFormat('zh-TW', { timeZone: 'Asia/Taipei', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).format(date);
-  };
-  const money = value => value === null || value === undefined || value === '' ? '價格未確認' : `NT$ ${Number(value).toLocaleString('zh-TW')}`;
-  const readStorage = (key, fallback) => {
-    try { const raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; }
-    catch { return fallback; }
-  };
-  const writeStorage = (key, value) => {
-    try { localStorage.setItem(key, JSON.stringify(value)); return true; }
-    catch { toast('無法儲存：瀏覽器儲存空間可能已滿。', 'error'); return false; }
-  };
+  const readStorage = (key, fallback) => { try { const raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; } catch { return fallback; } };
+  const writeStorage = (key, value) => { try { localStorage.setItem(key, JSON.stringify(value)); return true; } catch { toast('無法儲存：瀏覽器儲存空間可能已滿。', 'error'); return false; } };
   const readSession = key => { try { return sessionStorage.getItem(key); } catch { return null; } };
-  const writeSession = (key, value) => { try { sessionStorage.setItem(key, value); return true; } catch { return false; } };
-  const removeSession = key => { try { sessionStorage.removeItem(key); } catch { /* Session storage may be unavailable in a restricted browser. */ } };
+  const writeSession = (key, value) => { try { sessionStorage.setItem(key, value); } catch { /* optional */ } };
+  const removeSession = key => { try { sessionStorage.removeItem(key); } catch { /* optional */ } };
+  const formatTaipei = value => {
+    if (!value) return '';
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return String(value);
+    return new Intl.DateTimeFormat('zh-TW', { timeZone:'Asia/Taipei', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', hour12:false }).format(date);
+  };
+  const money = value => value === null || value === undefined || value === '' ? '價格尚未確認' : `NT$ ${Number(value).toLocaleString('zh-TW')}`;
 
   const state = {
-    regions: [], stores: [], products: [], events: [],
-    activeTab: 'overview', activeRegion: DEFAULT_REGION, activeStore: 'all', query: '',
-    eventStatus: 'all', funboxSubtab: 'events', queueMode: false,
-    editingProductId: null, pendingConfirmId: null, queueIndex: 0,
+    regions: [], stores: [], products: [], events: [], notSellingStoreIds: [], drawSources: [],
+    updatedAt: null, activeRegion: DEFAULT_REGION, activeTab: 'funbox', query: '',
+    productCode: 'all', timeSlot: 'all', queueMode: false, pendingEventId: null,
     appInstallPrompt: null, wasHidden: false
   };
 
   async function loadJson(path, fallback) {
     try {
-      const response = await fetch(path, { cache: 'no-cache' });
+      const response = await fetch(`${path}?v=0.4.1`, { cache: 'no-store' });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       return await response.json();
     } catch (error) {
-      console.warn(`資料載入失敗：${path}`, error);
+      console.warn(`無法載入 ${path}`, error);
       return fallback;
     }
   }
 
+  function normalizeEventData(data) {
+    if (Array.isArray(data)) return { events: data, notSellingStoreIds: [], updatedAt: null };
+    if (data && typeof data === 'object') {
+      return {
+        events: Array.isArray(data.events) ? data.events : [],
+        notSellingStoreIds: Array.isArray(data.notSellingStoreIds) ? data.notSellingStoreIds : [],
+        updatedAt: data.updatedAt || data.lastUpdated || null
+      };
+    }
+    return { events: [], notSellingStoreIds: [], updatedAt: null };
+  }
+
   async function init() {
-    const [regions, stores, products, events] = await Promise.all([
-      loadJson('data/regions.json', [{ regionId: DEFAULT_REGION, name: '台中市', enabled: true, default: true }]),
+    const [regions, stores, products, eventData, metadata, drawSources] = await Promise.all([
+      loadJson('data/regions.json', []),
       loadJson('data/stores.json', []),
       loadJson('data/products.json', []),
-      loadJson('data/draw-events.json', [])
+      loadJson('data/draw-events.json', []),
+      loadJson('data/source-metadata.json', {}),
+      loadJson('data/draw-sources.json', { sources: [] })
     ]);
     state.regions = Array.isArray(regions) ? regions : [];
     state.stores = Array.isArray(stores) ? stores : [];
-    const savedProducts = readStorage(STORAGE.products, null);
+    state.products = Array.isArray(readStorage(STORAGE.products, null)) ? readStorage(STORAGE.products, null) : (Array.isArray(products) ? products : []);
     const savedEvents = readStorage(STORAGE.events, null);
-    state.products = Array.isArray(savedProducts) ? savedProducts : products;
-    state.events = Array.isArray(savedEvents) ? savedEvents : events;
+    const normalized = normalizeEventData(eventData);
+    state.events = Array.isArray(savedEvents) ? savedEvents : normalized.events;
+    state.notSellingStoreIds = normalized.notSellingStoreIds;
+    state.drawSources = Array.isArray(drawSources?.sources) ? drawSources.sources : [];
+    state.updatedAt = metadata.importedAt || metadata.version || null;
     state.queueMode = !!readStorage(STORAGE.queue, false);
     readUrlState();
     bindEvents();
     renderAll();
-    updateInstallControl();
     registerServiceWorker();
-    checkPendingReturn();
-    if (Notification.permission === 'granted' && readStorage(STORAGE.notification, false)) {
+    if ('Notification' in window && Notification.permission === 'granted' && readStorage(STORAGE.notification, false)) {
       $('#notificationStatus').textContent = '通知權限已開啟';
     }
+    checkPendingReturn();
   }
 
   function readUrlState() {
     const params = new URLSearchParams(location.search);
     const region = params.get('region');
-    const legacyCity = params.get('c');
-    const requestedRegion = region || (legacyCity ? state.regions.find(item => item.name === legacyCity)?.regionId : null);
-    if (requestedRegion && state.regions.some(item => item.regionId === requestedRegion)) state.activeRegion = requestedRegion;
-    const store = params.get('store');
-    const legacyStores = params.get('s');
-    if (store && store !== 'all') state.activeStore = store;
-    else if (legacyStores && !legacyStores.includes(',')) {
-      const found = state.stores.find(item => item.name === legacyStores || (item.aliases || []).includes(legacyStores));
-      if (found) state.activeStore = found.storeId;
+    const city = params.get('c');
+    if (region && knownRegion(region)) state.activeRegion = region;
+    else if (city) {
+      const match = uniqueRegions().find(item => item.name === city);
+      if (match) state.activeRegion = match.regionId;
     }
+    if (params.get('tab') === 'eslite') state.activeTab = 'eslite';
     state.query = params.get('q') || '';
-    const tab = params.get('tab');
-    if (['overview', 'funbox', 'eslite', 'manage'].includes(tab)) state.activeTab = tab;
-    state.eventStatus = params.get('status') || 'all';
+  }
+
+  function knownRegion(regionId) { return regionId === 'all' || uniqueRegions().some(item => item.regionId === regionId); }
+  function uniqueRegions() {
+    const byId = new Map();
+    for (const store of state.stores) {
+      const id = store.regionId || 'TW-UNK';
+      if (!byId.has(id)) byId.set(id, { regionId:id, name:store.regionName || '待指定縣市' });
+    }
+    return [...byId.values()].sort((a,b) => {
+      if (a.regionId === DEFAULT_REGION) return -1;
+      if (b.regionId === DEFAULT_REGION) return 1;
+      return a.name.localeCompare(b.name, 'zh-Hant');
+    });
   }
 
   function updateUrl() {
     const params = new URLSearchParams();
-    params.set('region', state.activeRegion);
-    if (state.activeStore !== 'all') params.set('store', state.activeStore);
+    if (state.activeRegion !== 'all') params.set('region', state.activeRegion);
+    if (state.activeTab !== 'funbox') params.set('tab', state.activeTab);
     if (state.query.trim()) params.set('q', state.query.trim());
-    if (state.activeTab !== 'overview') params.set('tab', state.activeTab);
-    if (state.eventStatus !== 'all') params.set('status', state.eventStatus);
-    history.replaceState({}, '', `${location.pathname}?${params.toString()}${location.hash}`);
+    const query = params.toString();
+    history.replaceState({}, '', `${location.pathname}${query ? `?${query}` : ''}`);
   }
 
   function bindEvents() {
-    $$('.tab-button').forEach(button => button.addEventListener('click', () => setTab(button.dataset.tab)));
-    $$('[data-go]').forEach(button => button.addEventListener('click', () => setTab(button.dataset.go)));
     $('#regionSelect').addEventListener('change', event => {
       state.activeRegion = event.target.value;
-      state.activeStore = 'all';
-      renderFilters(); renderAll(); updateUrl();
+      renderAll();
+      updateUrl();
     });
-    $('#storeSelect').addEventListener('change', event => { state.activeStore = event.target.value; renderAll(); updateUrl(); });
-    $('#searchInput').addEventListener('input', event => { state.query = event.target.value; renderAll(); updateUrl(); });
-    $('#clearFilters').addEventListener('click', () => { state.activeStore = 'all'; state.query = ''; $('#searchInput').value = ''; renderFilters(); renderAll(); updateUrl(); });
-    $('#addEventTop').addEventListener('click', openEventDialog);
-    $('#addEventButton').addEventListener('click', openEventDialog);
-    $('#addProductTop').addEventListener('click', () => openProductDialog());
-    $('#addProductButton').addEventListener('click', () => openProductDialog());
-    $('#eventForm').addEventListener('submit', saveEventForm);
-    $('#productForm').addEventListener('submit', saveProductForm);
-    $$('[data-close]').forEach(button => button.addEventListener('click', () => $('#' + button.dataset.close).close()));
-    $$('#eventStatusFilters .chip').forEach(button => button.addEventListener('click', () => {
-      state.eventStatus = button.dataset.status;
-      $$('#eventStatusFilters .chip').forEach(chip => chip.classList.toggle('active', chip === button));
-      renderEvents(); updateUrl();
+    $('#searchInput').addEventListener('input', event => {
+      state.query = event.target.value.trimStart();
+      $('#clearSearch').hidden = !state.query;
+      renderStores(); renderEvents(); renderProducts(); updateDirectoryLink();
+      updateUrl();
+    });
+    $('#clearSearch').addEventListener('click', () => {
+      state.query = ''; $('#searchInput').value = ''; $('#clearSearch').hidden = true;
+      renderStores(); renderEvents(); renderProducts(); updateDirectoryLink(); updateUrl();
+    });
+    $$('.main-tab').forEach(button => button.addEventListener('click', () => setTab(button.dataset.tab)));
+    $('#productFilter').addEventListener('change', event => { state.productCode = event.target.value; renderEvents(); });
+    $('#timeFilter').addEventListener('change', event => { state.timeSlot = event.target.value; renderEvents(); });
+    $$('.mode-button').forEach(button => button.addEventListener('click', () => {
+      state.queueMode = button.dataset.mode === 'queue';
+      writeStorage(STORAGE.queue, state.queueMode);
+      updateModeButtons(); renderEvents();
     }));
-    $$('#funboxSubtabs .subtab').forEach(button => button.addEventListener('click', () => setFunboxSubtab(button.dataset.subtab)));
-    $('#queueMode').checked = state.queueMode;
-    $('#queueMode').addEventListener('change', event => { state.queueMode = event.target.checked; writeStorage(STORAGE.queue, state.queueMode); renderEvents(); });
+    $('#settingsOpen').addEventListener('click', () => $('#settingsDialog').showModal());
+    $$('[data-close]').forEach(button => button.addEventListener('click', () => $('#' + button.dataset.close).close()));
     $('#exportButton').addEventListener('click', exportBackup);
     $('#importInput').addEventListener('change', importBackup);
+    $('#clearLineClicks').addEventListener('click', resetLineClicks);
     $('#enableNotifications').addEventListener('click', enableNotifications);
-    $('#resetLocalButton').addEventListener('click', resetLocalData);
-    $('#confirmComplete').addEventListener('click', () => finishEventProgress('user-confirmed-complete'));
-    $('#confirmPending').addEventListener('click', () => finishEventProgress('opened'));
+    $('#addEventButton').addEventListener('click', openEventDialog);
+    $('#addProductButton').addEventListener('click', openProductDialog);
+    $('#eventForm').addEventListener('submit', saveEvent);
+    $('#productForm').addEventListener('submit', saveProduct);
+    $('#markComplete').addEventListener('click', () => finishEventProgress('complete'));
+    $('#markPending').addEventListener('click', () => finishEventProgress('pending'));
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'hidden') state.wasHidden = true;
       if (document.visibilityState === 'visible' && state.wasHidden) { state.wasHidden = false; checkPendingReturn(); }
     });
     window.addEventListener('pageshow', checkPendingReturn);
-    window.addEventListener('focus', () => { if (readSession('bxxr:pending-event')) checkPendingReturn(); });
-    window.addEventListener('popstate', () => { readUrlState(); renderFilters(); renderAll(); });
-    window.addEventListener('beforeinstallprompt', event => { event.preventDefault(); state.appInstallPrompt = event; updateInstallControl(); });
-    $('#installButton').addEventListener('click', installApp);
+    window.addEventListener('focus', () => { if (readSession('bxxr:v04:pending-event')) checkPendingReturn(); });
+    window.addEventListener('popstate', () => { readUrlState(); syncControls(); renderAll(); });
+    if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+      navigator.serviceWorker.register('service-worker.js').catch(error => console.warn('Service worker register failed', error));
+    }
   }
 
   function setTab(tab) {
     state.activeTab = tab;
-    $$('.tab-button').forEach(button => button.classList.toggle('active', button.dataset.tab === tab));
-    $$('.view').forEach(view => view.classList.toggle('active', view.id === `view-${tab}`));
+    $$('.main-tab').forEach(button => button.classList.toggle('active', button.dataset.tab === tab));
+    $('#view-funbox').classList.toggle('active', tab === 'funbox');
+    $('#view-funbox').hidden = tab !== 'funbox';
+    $('#view-eslite').classList.toggle('active', tab === 'eslite');
+    $('#view-eslite').hidden = tab !== 'eslite';
     updateUrl();
-    if (tab === 'funbox') renderEvents();
+    window.scrollTo({ top:0, behavior:'smooth' });
     if (tab === 'eslite') renderProducts();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  function setFunboxSubtab(subtab) {
-    state.funboxSubtab = subtab;
-    $$('#funboxSubtabs .subtab').forEach(button => button.classList.toggle('active', button.dataset.subtab === subtab));
-    $('#funboxEventsPanel').hidden = subtab !== 'events';
-    $('#funboxStoresPanel').hidden = subtab !== 'stores';
-    if (subtab === 'stores') renderStores(); else renderEvents();
   }
 
   function renderAll() {
-    renderHeader(); renderFilters(); renderStats(); renderOverview(); renderEvents(); renderStores(); renderProducts();
-    $$('.tab-button').forEach(button => button.classList.toggle('active', button.dataset.tab === state.activeTab));
-    $$('.view').forEach(view => view.classList.toggle('active', view.id === `view-${state.activeTab}`));
-    $$('#eventStatusFilters .chip').forEach(chip => chip.classList.toggle('active', chip.dataset.status === state.eventStatus));
-    $('#queueMode').checked = state.queueMode;
+    renderRegionSelect();
+    syncControls();
+    renderStores();
+    renderEvents();
+    renderProducts();
+    setTab(state.activeTab);
+    const meta = state.updatedAt ? `門市更新 ${formatTaipei(state.updatedAt)}` : '門市資料以 Google Sheet 同步版本為準';
+    $('#footerMeta').textContent = meta;
+    $('#dataState').textContent = state.stores.length ? `${state.stores.length} 家門市` : '門市資料未載入';
   }
 
-  function renderHeader() {
-    const region = state.regions.find(item => item.regionId === state.activeRegion);
-    $('#heroRegion').textContent = region?.name || '全部地區';
-    $('#updatedAt').textContent = '2026/11/04';
-    $('#footerDate').textContent = '台灣時間 Asia/Taipei';
+  function renderRegionSelect() {
+    const regions = uniqueRegions();
+    const select = $('#regionSelect');
+    select.innerHTML = `<option value="all">全部地區 (${state.stores.length})</option>` + regions.map(region => {
+      const count = state.stores.filter(store => store.regionId === region.regionId && store.active !== false).length;
+      return `<option value="${esc(region.regionId)}">${esc(region.name)} (${count})</option>`;
+    }).join('');
+    if (!knownRegion(state.activeRegion)) state.activeRegion = regions.some(item => item.regionId === DEFAULT_REGION) ? DEFAULT_REGION : (regions[0]?.regionId || 'all');
+    select.value = state.activeRegion;
   }
 
-  function renderFilters() {
-    const regionSelect = $('#regionSelect');
-    regionSelect.innerHTML = state.regions.filter(item => item.enabled !== false).map(item => `<option value="${esc(item.regionId)}">${esc(item.name)}</option>`).join('');
-    if (!state.regions.some(item => item.regionId === state.activeRegion)) state.activeRegion = state.regions[0]?.regionId || DEFAULT_REGION;
-    regionSelect.value = state.activeRegion;
-    const stores = state.stores.filter(store => store.regionId === state.activeRegion && store.active !== false);
-    $('#storeSelect').innerHTML = `<option value="all">全部門市</option>` + stores.map(store => `<option value="${esc(store.storeId)}">${esc(store.name)}</option>`).join('');
-    if (!stores.some(store => store.storeId === state.activeStore)) state.activeStore = 'all';
-    $('#storeSelect').value = state.activeStore;
+  function syncControls() {
     $('#searchInput').value = state.query;
+    $('#clearSearch').hidden = !state.query;
+    $('#regionSelect').value = state.activeRegion;
+    $$('.main-tab').forEach(button => button.classList.toggle('active', button.dataset.tab === state.activeTab));
+    updateModeButtons();
   }
 
-  function renderStats() {
-    const activeStores = state.stores.filter(store => store.regionId === state.activeRegion && store.active !== false);
-    const official = activeStores.filter(store => store.sourceType === 'official-directory').length;
-    $('#statStores').textContent = activeStores.length;
-    $('#statProducts').textContent = state.products.filter(product => product.watchEnabled !== false).length;
-    const pending = state.events.filter(event => event.status !== 'closed' && event.status !== 'cancelled' && event.status !== 'user-confirmed-complete').length;
-    $('#statEvents').textContent = pending;
-    $('#eventCount').textContent = state.events.length;
-    $('#storeCount').textContent = activeStores.length;
-    $('#officialStoreCount').textContent = official;
-    $('#candidateStoreCount').textContent = activeStores.length - official;
+  function updateModeButtons() {
+    $$('.mode-button').forEach(button => button.classList.toggle('active', (button.dataset.mode === 'queue') === state.queueMode));
+    $('#modeDescription').hidden = !state.queueMode;
   }
 
-  function eventEffectiveStatus(event) {
-    if (event.status === 'cancelled' || event.status === 'closed') return event.status;
-    if (event.endsAt && new Date(event.endsAt).getTime() < Date.now()) return 'closed';
-    if (event.startsAt && new Date(event.startsAt).getTime() > Date.now() && event.status === 'open') return 'upcoming';
-    return event.status || 'needs-verification';
+  function currentStores() {
+    return state.stores.filter(store => store.active !== false && (state.activeRegion === 'all' || store.regionId === state.activeRegion));
+  }
+  function matchesQuery(text) { return !state.query || String(text || '').toLocaleLowerCase().includes(state.query.toLocaleLowerCase()); }
+  function lineClicks() { return readStorage(STORAGE.lineClicks, {}); }
+
+  function renderStores() {
+    const stores = currentStores().filter(store => matchesQuery(`${store.name || ''} ${store.lineId || ''} ${(store.aliases || []).join(' ')}`));
+    $('#storeCount').textContent = `${stores.length} 家`;
+    const list = $('#storeList');
+    if (!stores.length) {
+      list.innerHTML = '<div class="empty-state"><strong>沒有符合的門市</strong><p>請清除搜尋條件，或切換其他縣市。</p></div>';
+      return;
+    }
+    const clicks = lineClicks();
+    list.innerHTML = stores.map(store => {
+      const lineId = store.lineId || '';
+      const lineUrl = safeUrl(store.lineUrl) || (lineId ? `https://line.me/R/ti/p/${encodeURIComponent(lineId)}` : '');
+      const fbUrl = safeUrl(store.facebookUrl);
+      const clicked = !!clicks[store.storeId];
+      return `<article class="store-row">
+        <div class="store-main"><span class="store-name">${esc(store.name)}</span><span class="store-id">${esc(lineId || 'LINE ID 未提供')}</span></div>
+        <div class="store-secondary">${fbUrl ? `<a class="facebook-link" href="${esc(fbUrl)}" target="_blank" rel="noopener noreferrer">FB</a>` : ''}
+          ${lineUrl ? `<a class="line-button${clicked ? ' visited' : ''}" href="${esc(lineUrl)}" target="_blank" rel="noopener noreferrer" data-line-store="${esc(store.storeId)}">${clicked ? '已開啟' : '＋ 加好友'}</a>` : '<span class="line-button visited">未提供 LINE</span>'}
+        </div>
+      </article>`;
+    }).join('');
+    list.querySelectorAll('[data-line-store]').forEach(link => link.addEventListener('click', () => {
+      const clicksNow = lineClicks();
+      clicksNow[link.dataset.lineStore] = nowIso();
+      writeStorage(STORAGE.lineClicks, clicksNow);
+      window.setTimeout(renderStores, 160);
+    }));
   }
 
-  function getEventStore(event) { return state.stores.find(store => store.storeId === event.storeId); }
-  function getProgress() { return readStorage(STORAGE.progress, {}); }
-  function setProgress(id, progress) {
-    const current = getProgress(); current[id] = { status: progress, updatedAt: nowIso() }; writeStorage(STORAGE.progress, current);
+  function getStore(storeId) { return state.stores.find(store => store.storeId === storeId); }
+  function eventStart(event) { return event.startsAt || event.startAt || event.startTime || null; }
+  function eventEnd(event) { return event.endsAt || event.endAt || event.endTime || null; }
+  function eventCode(event) { return event.productCode || event.productId || event.code || '商品待確認'; }
+  function eventName(event) { return event.productName || event.name || ''; }
+  function effectiveStatus(event) {
+    const explicit = event.status || 'needs-verification';
+    if (['cancelled','closed'].includes(explicit)) return explicit;
+    const end = eventEnd(event);
+    if (end && !Number.isNaN(new Date(end).getTime()) && new Date(end).getTime() < Date.now()) return 'closed';
+    const start = eventStart(event);
+    if (start && !Number.isNaN(new Date(start).getTime()) && new Date(start).getTime() > Date.now()) return 'upcoming';
+    return explicit;
   }
-  function getEventProgress(id) { return getProgress()[id]?.status || 'not-started'; }
-  function progressLabel(status) { return ({ 'not-started':'未處理', opened:'已開啟，待確認', 'user-confirmed-complete':'已確認完成', skipped:'已略過' })[status] || '未處理'; }
+  function eventStatusPill(status) {
+    const map = {
+      open: ['進行中','open'], upcoming: ['即將開始','upcoming'],
+      'needs-verification':['待確認','warning'], announced:['已公告','warning'],
+      closed:['已結束','closed'], cancelled:['已取消','closed']
+    };
+    return map[status] || map['needs-verification'];
+  }
+  function eventTimeText(event) {
+    if (event.timeText) return event.timeText;
+    const start = eventStart(event), end = eventEnd(event);
+    if (start && end) return `${formatTaipei(start)} – ${formatTaipei(end)}`;
+    if (start) return `開始 ${formatTaipei(start)}`;
+    if (end) return `截止 ${formatTaipei(end)}`;
+    return event.timeLabel || '時間以門市公告為準';
+  }
+  function eventMethodLabel(method) {
+    return ({'line-draw':'LINE 抽選','in-store':'現場販售',preorder:'預購',online:'線上販售',unknown:'方式待確認'})[method] || '販售／抽選';
+  }
+  function eventProgress() { return readStorage(STORAGE.progress, {}); }
+  function progressStatus(eventId) { return eventProgress()[eventId]?.status || 'not-started'; }
+  function activeEvents() {
+    return state.events.filter(event => {
+      const store = getStore(event.storeId);
+      const eventRegion = store?.regionId || event.regionId;
+      if (state.activeRegion !== 'all' && eventRegion !== state.activeRegion) return false;
+      if (!matchesQuery(`${eventCode(event)} ${eventName(event)} ${store?.name || ''}`)) return false;
+      if (state.productCode !== 'all' && eventCode(event) !== state.productCode) return false;
+      if (state.timeSlot !== 'all' && timeKey(event) !== state.timeSlot) return false;
+      if (effectiveStatus(event) === 'closed' || effectiveStatus(event) === 'cancelled') return false;
+      if (state.queueMode && ['complete','skipped'].includes(progressStatus(event.eventId))) return false;
+      return true;
+    }).sort((a,b) => {
+      const da = eventStart(a) ? new Date(eventStart(a)).getTime() : Number.MAX_SAFE_INTEGER;
+      const db = eventStart(b) ? new Date(eventStart(b)).getTime() : Number.MAX_SAFE_INTEGER;
+      return da - db || String(eventCode(a)).localeCompare(String(eventCode(b)));
+    });
+  }
+  function timeKey(event) {
+    const start = eventStart(event);
+    if (!start) return '未標示時間';
+    const date = new Date(start);
+    if (Number.isNaN(date.getTime())) return '未標示時間';
+    return `${String(date.getHours()).padStart(2,'0')}:${String(date.getMinutes()).padStart(2,'0')}`;
+  }
+  function renderEventFilters() {
+    const productSelect = $('#productFilter');
+    const currentProduct = state.productCode;
+    const codes = [...new Set(state.events.filter(event => {
+      const store = getStore(event.storeId);
+      return state.activeRegion === 'all' || store?.regionId === state.activeRegion;
+    }).map(eventCode))].sort();
+    productSelect.innerHTML = '<option value="all">全部商品</option>' + codes.map(code => `<option value="${esc(code)}">${esc(code)}</option>`).join('');
+    state.productCode = codes.includes(currentProduct) ? currentProduct : 'all';
+    productSelect.value = state.productCode;
+    const timeSelect = $('#timeFilter');
+    const times = [...new Set(state.events.filter(event => {
+      const store = getStore(event.storeId);
+      return state.activeRegion === 'all' || store?.regionId === state.activeRegion;
+    }).map(timeKey))].sort((a,b) => a.localeCompare(b, 'zh-Hant'));
+    timeSelect.innerHTML = '<option value="all">全部時間</option>' + times.map(time => `<option value="${esc(time)}">${esc(time)}</option>`).join('');
+    if (!times.includes(state.timeSlot)) state.timeSlot = 'all';
+    timeSelect.value = state.timeSlot;
+    $('#drawControls').hidden = state.events.length === 0;
+  }
 
-  function matchesQuery(text) {
-    const query = state.query.trim().toLowerCase();
-    return !query || String(text || '').toLowerCase().includes(query);
+  function directoryUrl() {
+    const params = new URLSearchParams();
+    if (state.activeRegion !== 'all') {
+      const region = uniqueRegions().find(item => item.regionId === state.activeRegion);
+      if (region) {
+        params.set('c', region.name);
+        const names = currentStores().map(store => store.name).filter(Boolean);
+        if (names.length) params.set('s', names.join(','));
+      }
+    }
+    if (state.query.trim()) params.set('q', state.query.trim());
+    return `${DIRECTORY_URL}${params.toString() ? `?${params.toString()}` : ''}`;
   }
-  function storeMatchesFilter(storeId) {
-    if (state.activeStore !== 'all' && state.activeStore !== storeId) return false;
-    const store = state.stores.find(item => item.storeId === storeId);
-    return !!store && store.regionId === state.activeRegion;
-  }
+  function updateDirectoryLink() { $('#directoryLink').href = directoryUrl(); }
 
-  function eventCard(event, index = null) {
-    const store = getEventStore(event);
-    const productCode = event.productCode || event.productId || '未填型號';
-    const productName = event.productName || event.name || '';
-    const status = eventEffectiveStatus(event);
-    const [statusText, statusClass] = EVENT_STATUS[status] || EVENT_STATUS['needs-verification'];
-    const progress = getEventProgress(event.eventId);
-    const drawUrl = safeUrl(event.drawUrl);
+  function eventCard(event, index) {
+    const store = getStore(event.storeId);
+    const status = eventStatusPill(effectiveStatus(event));
+    const drawUrl = safeUrl(event.drawUrl) || safeUrl(event.announcementUrl);
     const announcementUrl = safeUrl(event.announcementUrl);
-    const price = event.price !== null && event.price !== undefined && event.price !== '' ? money(event.price) : '';
-    const times = [event.startsAt ? `開始 ${formatDate(event.startsAt)}` : '', event.endsAt ? `截止 ${formatDate(event.endsAt)}` : ''].filter(Boolean).join('　·　');
+    const progress = progressStatus(event.eventId);
+    const isComplete = progress === 'complete';
+    const isOpened = progress === 'opened';
+    const product = `${eventCode(event)} ${eventName(event)}`.trim();
+    const time = eventTimeText(event);
+    const actionLabel = safeUrl(event.drawUrl) ? '前往抽選' : '查看公告';
     return `<article class="event-card" data-event-id="${esc(event.eventId)}">
-      <div>
-        <div class="card-top">${index !== null ? `<span class="queue-number">${index + 1}</span>` : ''}<span class="status-pill ${statusClass}">${statusText}</span><span class="mini-badge">${esc(METHOD_LABEL[event.method] || METHOD_LABEL.unknown)}</span><span class="mini-badge">${esc(progressLabel(progress))}</span></div>
-        <h3>${esc(productCode)} ${esc(productName)}</h3>
-        <div class="event-meta"><span>▣ ${esc(store?.name || '未知門市')}</span>${times ? `<span>◷ ${esc(times)}</span>` : ''}${price ? `<span>${esc(price)}</span>` : ''}${event.purchaseLimit ? `<span>限購：${esc(event.purchaseLimit)}</span>` : ''}</div>
-        ${event.notes ? `<p class="event-notes">${esc(event.notes)}</p>` : ''}
-        <div class="event-meta"><span>資料最後整理：${esc(formatDate(event.updatedAt || event.observedAt || event.createdAt))}</span><span>來源需自行核對</span></div>
+      <div class="event-content">
+        <div class="event-labels"><span class="pill ${status[1]}">${status[0]}</span><span class="pill">${esc(eventMethodLabel(event.method))}</span>${isComplete ? '<span class="pill open">已確認完成</span>' : isOpened ? '<span class="pill warning">已開啟</span>' : ''}</div>
+        <h3 class="event-title">${esc(product)}</h3>
+        <div class="event-store">${esc(store?.name || event.storeName || '門市待確認')}</div>
+        <div class="event-time">${esc(time)}${event.purchaseTimeText ? `<br>購買資格：${esc(event.purchaseTimeText)}` : ''}</div>
       </div>
-      <div class="event-actions">
-        ${drawUrl ? `<button class="button button-primary" data-action="open-event" data-id="${esc(event.eventId)}" type="button">開啟官方活動頁 ↗</button>` : `<button class="button button-ghost" data-action="no-event-url" type="button">尚未提供活動網址</button>`}
-        ${announcementUrl ? `<a class="button button-ghost" href="${esc(announcementUrl)}" target="_blank" rel="noopener">查看原始公告 ↗</a>` : ''}
-        <button class="button button-ghost" data-action="progress-event" data-id="${esc(event.eventId)}" type="button">更新處理狀態</button>
-        <button class="button button-ghost" data-action="delete-event" data-id="${esc(event.eventId)}" type="button">刪除此筆</button>
-      </div>
+      <div class="event-action-wrap">${drawUrl ? `<button class="event-button" type="button" data-open-event="${esc(event.eventId)}">${actionLabel}</button>` : '<button class="event-button" type="button" disabled>尚無網址</button>'}${announcementUrl ? `<a class="event-source" href="${esc(announcementUrl)}" target="_blank" rel="noopener">原始公告 ↗</a>` : ''}</div>
     </article>`;
   }
 
   function renderEvents() {
-    const list = $('#eventList');
-    const matching = state.events.filter(event => {
-      const store = getEventStore(event);
-      if (!storeMatchesFilter(event.storeId)) return false;
-      if (!matchesQuery(`${event.productCode || event.productId || ''} ${event.productName || ''} ${store?.name || ''}`)) return false;
-      const status = eventEffectiveStatus(event);
-      if (state.eventStatus !== 'all' && status !== state.eventStatus) return false;
-      if (state.queueMode && ['user-confirmed-complete', 'skipped'].includes(getEventProgress(event.eventId))) return false;
-      return true;
-    }).sort((a, b) => {
-      const rank = event => ({ open:0, upcoming:1, 'needs-verification':2, announced:3, closed:4, cancelled:5 })[eventEffectiveStatus(event)] ?? 6;
-      return rank(a) - rank(b) || new Date(a.endsAt || '2999-12-31') - new Date(b.endsAt || '2999-12-31');
+    renderEventFilters();
+    updateDirectoryLink();
+    const visible = activeEvents();
+    const expired = state.events.filter(event => {
+      const store = getStore(event.storeId);
+      if (state.activeRegion !== 'all' && store?.regionId !== state.activeRegion) return false;
+      return ['closed','cancelled'].includes(effectiveStatus(event));
     });
+    $('#drawUpdated').textContent = state.events.length ? `活動資料 ${state.events.length} 筆` : '當期活動尚未匯入；可查看外部整理來源';
+    $('#eventList').innerHTML = visible.length ? visible.map((event,index) => eventCard(event,index)).join('') : emptyEventsHtml();
+    $('#eventList').querySelectorAll('[data-open-event]').forEach(button => button.addEventListener('click', () => openEvent(button.dataset.openEvent)));
+    $('#endedPanel').hidden = expired.length === 0;
+    $('#endedCount').textContent = `${expired.length} 筆`;
+    $('#endedList').innerHTML = expired.map(event => eventCard(event,null)).join('');
+    $('#endedList').querySelectorAll('[data-open-event]').forEach(button => button.addEventListener('click', () => openEvent(button.dataset.openEvent)));
+    renderNotSelling();
+    updateModeButtons();
+  }
 
-    const queueBanner = state.queueMode ? `<div class="queue-banner show"><span>逐項處理模式：只顯示尚未確認完成或略過的活動。開啟官方頁後，返回本頁再自行確認結果。</span><b>${matching.length} 項待處理</b></div>` : '';
-    if (!matching.length) {
-      list.innerHTML = `${queueBanner}<div class="panel empty-state"><div class="empty-symbol">◈</div><strong>${state.events.length ? '目前篩選條件沒有符合的活動' : '目前沒有已核實的開放抽選資料'}</strong><p>${state.events.length ? '可以切換狀態篩選、清除關鍵字，或檢查是否已把活動標記為完成。' : '這是刻意保留的空清單：目前沒有足夠的官方公告與有效抽選網址可安全標示為開放。新增公告後，活動會出現在這裡。'}</p><button class="button button-primary" id="emptyAddEvent" type="button">＋ 新增活動資料</button></div>`;
-      $('#emptyAddEvent')?.addEventListener('click', openEventDialog);
+  function emptyEventsHtml() {
+    const hasData = state.events.length > 0;
+    const title = hasData ? '目前沒有符合條件的活動' : '本站尚未匯入可核實的當期抽選';
+    const message = hasData
+      ? '請調整商品或時間條件，或切換地區查看。'
+      : '先從兩個公開整理來源查看公告。外部資料可能含已結束批次，請以門市官方公告及抽選頁顯示的時間為準。';
+    const cards = state.drawSources.map(source => {
+      const date = source.lastPageUpdate || source.lastIndexedAt;
+      const dateText = date ? `來源更新 ${formatTaipei(date)}` : '更新時間未提供';
+      const statusText = source.snapshotStatus === 'expired' ? '最近批次已結束' : source.snapshotStatus === 'historical' ? '歷史資料庫' : '外部整理來源';
+      const summary = source.id === 'uxux11'
+        ? `LINE 名錄 ${source.lineDirectoryRows || '—'} 筆 · 最近批次 ${source.drawBatchStoreCount || '—'} 家 · ${statusText}`
+        : `歷史索引 ${source.indexedItemCount || '—'} 項 · ${source.indexedStoreCount || '—'} 家門市 · ${source.indexedProductCount || '—'} 種商品`;
+      const url = source.id === 'beybuilder' ? directoryUrl() : safeUrl(source.url);
+      return `<a class="draw-source-card" href="${esc(url || source.url)}" target="_blank" rel="noopener"><span class="draw-source-name">${esc(source.name)}</span><span class="draw-source-meta">${esc(summary)}</span><span class="draw-source-date">${esc(dateText)}　↗</span></a>`;
+    }).join('');
+    return `<div class="empty-state"><strong>${title}</strong><p>${message}</p></div><div class="draw-source-grid">${cards}</div>`;
+  }
+
+  function renderNotSelling() {
+    const ids = state.notSellingStoreIds;
+    let items = [];
+    if (ids.length) {
+      items = ids.map(id => typeof id === 'string' ? state.stores.find(store => store.storeId === id || store.name === id) : null).filter(Boolean);
+      $('#notSellingMeta').textContent = `${items.length} 家`;
+      $('#notSellingContent').textContent = items.length ? items.map(store => store.name).join('、') : '來源提供的名單目前無法對應門市資料。';
     } else {
-      list.innerHTML = `${queueBanner}${matching.map((event, index) => eventCard(event, state.queueMode ? index : null)).join('')}`;
+      $('#notSellingMeta').textContent = '尚無完整名單';
+      $('#notSellingContent').textContent = '目前沒有經來源確認的完整未販售名單。沒有出現在抽選清單，不代表該門市沒有販售。';
     }
-    list.querySelectorAll('[data-action="open-event"]').forEach(button => button.addEventListener('click', () => openEvent(button.dataset.id)));
-    list.querySelectorAll('[data-action="progress-event"]').forEach(button => button.addEventListener('click', () => openProgressDialog(button.dataset.id)));
-    list.querySelectorAll('[data-action="no-event-url"]').forEach(button => button.addEventListener('click', () => toast('此筆活動沒有原始公告或官方活動網址，請先補上可核對的來源。', 'error')));
-    list.querySelectorAll('[data-action="delete-event"]').forEach(button => button.addEventListener('click', () => deleteEvent(button.dataset.id)));
-  }
-
-  function storeCard(store) {
-    const isOfficial = store.sourceType === 'official-directory';
-    const lineUrl = safeUrl(store.lineUrl);
-    const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(store.address || store.name)}`;
-    const sourceUrl = (store.sourceUrls || []).map(safeUrl).find(Boolean);
-    return `<article class="store-card">
-      <div class="store-card-top"><h3>${esc(store.name)}</h3><span class="mini-badge ${isOfficial ? 'official' : 'candidate'}">${isOfficial ? '官方門市名錄' : '補充候選'}</span></div>
-      <div class="store-badges"><span class="mini-badge">LINE ${store.lineId ? esc(store.lineId) : '未整理'}</span><span class="mini-badge">販售陀螺狀態待核對</span></div>
-      <div class="address">${esc(store.address || '地址待補')}</div>
-      ${store.phone ? `<div class="store-phone">☎ ${esc(store.phone)}</div>` : ''}
-      <div class="store-actions">${lineUrl ? `<a class="button button-primary" href="${esc(lineUrl)}" target="_blank" rel="noopener">加入 LINE ↗</a>` : `<button class="button button-ghost" disabled>LINE 待補</button>`}<a class="button button-ghost" href="${esc(mapUrl)}" target="_blank" rel="noopener">地圖 ↗</a></div>
-      <div class="store-source">${isOfficial ? '地址來源：Funbox 官方線上門市名錄' : '候選來源：官方舊名錄 / 第三方整理，需確認現況'} · LINE ID 未逐一人工驗證</div>
-      ${sourceUrl ? `<a class="text-button" href="${esc(sourceUrl)}" target="_blank" rel="noopener">查看資料來源 ↗</a>` : ''}
-    </article>`;
-  }
-
-  function renderStores() {
-    const stores = state.stores.filter(store => store.regionId === state.activeRegion && store.active !== false)
-      .filter(store => state.activeStore === 'all' || store.storeId === state.activeStore)
-      .filter(store => matchesQuery(`${store.name} ${(store.aliases || []).join(' ')} ${store.address} ${store.lineId || ''}`));
-    $('#storeList').innerHTML = stores.length ? stores.map(storeCard).join('') : `<div class="panel empty-state"><strong>沒有符合條件的門市</strong><p>可以清除搜尋，或切換其他地區。</p></div>`;
-  }
-
-  function productCard(product) {
-    const status = PRODUCT_STATUS[product.status] || PRODUCT_STATUS.unknown;
-    const url = safeUrl(product.url || product.esliteUrl);
-    const priceLine = product.lastPrice !== undefined && product.lastPrice !== null && product.lastPrice !== ''
-      ? money(product.lastPrice)
-      : product.researchPrice !== undefined && product.researchPrice !== null ? `研究頁面曾顯示 ${money(product.researchPrice)}` : '價格未確認';
-    const checkLine = product.lastCheckedAt ? `人工核對 ${formatFullDate(product.lastCheckedAt)}` : '尚未人工核對販售狀態';
-    return `<article class="product-card">
-      <div class="product-art"><b>${esc(product.code)}</b><small>BEYBLADE X</small></div>
-      <div class="product-info"><div class="product-code">ESLITE ONLINE / ${esc(product.code)}</div><h3>${esc(product.nameZh || product.name || product.code)}</h3><div class="product-price">${esc(priceLine)}</div><span class="status-pill ${status[1]}">${esc(status[0])}</span><p>${esc(checkLine)}</p>${product.researchNote ? `<p>${esc(product.researchNote)}</p>` : ''}
-        <div class="product-card-actions">${url ? `<a class="button button-primary" href="${esc(url)}" target="_blank" rel="noopener">前往誠品 ↗</a>` : ''}<button class="button button-ghost" data-action="edit-product" data-id="${esc(product.productId)}" type="button">更新核對資料</button><button class="button button-ghost" data-action="delete-product" data-id="${esc(product.productId)}" type="button">移除</button></div>
-      </div>
-    </article>`;
   }
 
   function renderProducts() {
-    const products = state.products.filter(product => product.watchEnabled !== false).filter(product => matchesQuery(`${product.code} ${product.nameZh || ''} ${(product.aliases || []).join(' ')}`));
-    $('#productList').innerHTML = products.length ? products.map(productCard).join('') : `<div class="panel empty-state"><strong>沒有符合條件的追蹤商品</strong><p>可以新增商品型號與誠品商品網址。</p><button class="button button-primary" id="emptyAddProduct" type="button">＋ 新增商品</button></div>`;
-    $('#productList').querySelectorAll('[data-action="edit-product"]').forEach(button => button.addEventListener('click', () => openProductDialog(button.dataset.id)));
-    $('#productList').querySelectorAll('[data-action="delete-product"]').forEach(button => button.addEventListener('click', () => deleteProduct(button.dataset.id)));
-    $('#emptyAddProduct')?.addEventListener('click', () => openProductDialog());
-  }
-
-  function renderOverview() {
-    const regionEvents = state.events.filter(event => getEventStore(event)?.regionId === state.activeRegion)
-      .filter(event => !['closed', 'cancelled'].includes(eventEffectiveStatus(event)))
-      .sort((a,b) => new Date(a.endsAt || '2999-12-31') - new Date(b.endsAt || '2999-12-31')).slice(0, 3);
-    $('#overviewEvents').innerHTML = regionEvents.length ? regionEvents.map(event => `<div class="product-mini"><div class="product-avatar">${esc(event.productCode || 'X')}</div><div class="product-mini-info"><b>${esc(event.productName || event.productCode || '活動')}</b><small>${esc(getEventStore(event)?.name || '未知門市')} · ${esc(METHOD_LABEL[event.method] || '待確認')}</small></div><span class="status-pill ${(EVENT_STATUS[eventEffectiveStatus(event)] || EVENT_STATUS['needs-verification'])[1]}">${esc((EVENT_STATUS[eventEffectiveStatus(event)] || EVENT_STATUS['needs-verification'])[0])}</span></div>`).join('') : `<div class="empty-state compact-empty"><div class="empty-symbol">◈</div><strong>目前沒有已核實的開放活動</strong><p>可以貼上門市公告與官方抽選網址，建立活動紀錄。</p><button class="button button-dark" data-go="manage" type="button">＋ 新增活動資料</button></div>`;
-    $('#overviewEvents').querySelector('[data-go="manage"]')?.addEventListener('click', () => setTab('manage'));
-    const previewProducts = state.products.filter(product => product.watchEnabled !== false).slice(0, 3);
-    $('#overviewProducts').innerHTML = previewProducts.length ? previewProducts.map(product => `<div class="product-mini"><div class="product-avatar">${esc(product.code)}</div><div class="product-mini-info"><b>${esc(product.nameZh || product.code)}</b><small>${esc(product.code)} · ${esc(product.lastCheckedAt ? formatDate(product.lastCheckedAt) : '未確認即時狀態')}</small></div><span class="status-pill ${(PRODUCT_STATUS[product.status] || PRODUCT_STATUS.unknown)[1]}">${esc((PRODUCT_STATUS[product.status] || PRODUCT_STATUS.unknown)[0])}</span></div>`).join('') : `<div class="empty-state compact-empty"><strong>尚未新增追蹤商品</strong><p>前往誠品商品頁新增你想追蹤的型號。</p></div>`;
-  }
-
-  function openEventDialog() {
-    const select = $('#eventStore');
-    const regionStores = state.stores.filter(store => store.regionId === state.activeRegion && store.active !== false);
-    select.innerHTML = regionStores.map(store => `<option value="${esc(store.storeId)}">${esc(store.name)}</option>`).join('');
-    $('#eventForm').reset();
-    $('#eventStatus').value = 'needs-verification';
-    $('#eventMethod').value = 'line-draw';
-    $('#eventDialog').showModal();
-  }
-
-  function saveEventForm(event) {
-    event.preventDefault();
-    const storeId = $('#eventStore').value;
-    const productCode = $('#eventCode').value.trim().toUpperCase();
-    if (!storeId || !productCode) { toast('請填寫門市與商品型號。', 'error'); return; }
-    const eventRecord = {
-      eventId: `user-${Date.now()}-${Math.random().toString(16).slice(2,7)}`,
-      storeId, productCode, productName: $('#eventName').value.trim(),
-      method: $('#eventMethod').value, status: $('#eventStatus').value,
-      startsAt: inputDateToIso($('#eventStarts').value), endsAt: inputDateToIso($('#eventEnds').value),
-      price: $('#eventPrice').value ? Number($('#eventPrice').value) : null,
-      purchaseLimit: $('#eventLimit').value.trim() || null,
-      announcementUrl: safeUrl($('#eventAnnouncement').value) || null,
-      drawUrl: safeUrl($('#eventDrawUrl').value) || null,
-      notes: $('#eventNotes').value.trim(),
-      sourceType: 'user-submitted', createdAt: nowIso(), updatedAt: nowIso(), userProgress: 'not-started'
-    };
-    if (!eventRecord.drawUrl && !eventRecord.announcementUrl) {
-      toast('建議至少填寫原始公告或活動網址；這筆資料仍可儲存為待確認。', 'error');
+    const products = state.products.filter(product => product.watchEnabled !== false && matchesQuery(`${product.code || ''} ${product.nameZh || product.name || ''} ${(product.aliases || []).join(' ')}`));
+    const container = $('#productList');
+    if (!products.length) {
+      container.innerHTML = '<div class="empty-state"><strong>沒有符合的追蹤商品</strong><p>可以清除搜尋，或到設定裡新增商品。</p></div>';
       return;
     }
-    state.events.unshift(eventRecord);
-    writeStorage(STORAGE.events, state.events);
-    if (eventRecord.status === 'open') sendForegroundNotice('新增開放活動', `${eventRecord.productCode}｜${getEventStore(eventRecord)?.name || 'Funbox 門市'}`);
-    $('#eventDialog').close();
-    state.eventStatus = 'all';
-    $$('#eventStatusFilters .chip').forEach(chip => chip.classList.toggle('active', chip.dataset.status === 'all'));
-    renderStats(); renderEvents(); renderOverview();
-    setTab('funbox'); setFunboxSubtab('events');
-    toast('活動已儲存在這台裝置。請再核對原始公告與截止時間。', 'success');
-  }
-
-  function inputDateToIso(value) {
-    if (!value) return null;
-    const date = new Date(value);
-    return Number.isNaN(date.getTime()) ? null : date.toISOString();
-  }
-
-  function openProductDialog(productId = null) {
-    state.editingProductId = productId;
-    const product = productId ? state.products.find(item => item.productId === productId) : null;
-    $('#productForm').reset();
-    $('#productDialogTitle').textContent = product ? '更新商品核對資料' : '新增追蹤商品';
-    $('#productCode').value = product?.code || '';
-    $('#productName').value = product?.nameZh || product?.name || '';
-    $('#productUrl').value = product?.url || product?.esliteUrl || '';
-    $('#productPrice').value = product?.lastPrice ?? product?.researchPrice ?? '';
-    $('#productStatus').value = product?.status || 'unknown';
-    $('#productChecked').value = product?.lastCheckedAt ? formatFullDate(product.lastCheckedAt) : '儲存時自動記錄';
-    $('#productDialog').showModal();
-  }
-
-  function saveProductForm(event) {
-    event.preventDefault();
-    const code = $('#productCode').value.trim().toUpperCase();
-    const nameZh = $('#productName').value.trim();
-    const url = safeUrl($('#productUrl').value);
-    if (!code || !nameZh || !url) { toast('請填寫商品型號、名稱與有效的誠品商品網址。', 'error'); return; }
-    const price = $('#productPrice').value ? Number($('#productPrice').value) : null;
-    const product = {
-      productId: state.editingProductId || `eslite-${code.toLowerCase()}-${Date.now()}`,
-      code, nameZh, channel: 'eslite', url, status: $('#productStatus').value,
-      lastPrice: price, lastCheckedAt: nowIso(), watchEnabled: true,
-      aliases: [code.replace('-', '')]
-    };
-    const existingIndex = state.products.findIndex(item => item.productId === product.productId || (!state.editingProductId && item.code.toUpperCase() === code));
-    const previousStatus = existingIndex >= 0 ? state.products[existingIndex].status : null;
-    if (existingIndex >= 0) state.products[existingIndex] = { ...state.products[existingIndex], ...product };
-    else state.products.unshift(product);
-    writeStorage(STORAGE.products, state.products);
-    if (product.status === 'add-to-cart-visible' && previousStatus !== 'add-to-cart-visible') sendForegroundNotice('誠品商品狀態更新', `${product.code} ${product.nameZh}：頁面顯示可加入購物車，請立即到誠品確認。`);
-    $('#productDialog').close();
-    renderStats(); renderProducts(); renderOverview();
-    setTab('eslite');
-    toast('商品核對資料已儲存。這是人工紀錄，不是即時庫存。', 'success');
+    container.innerHTML = products.map(product => {
+      const code = product.code || product.productId;
+      const name = product.nameZh || product.name || code;
+      const url = safeUrl(product.url || product.esliteUrl);
+      const statusMap = {
+        unknown:['庫存尚未確認','warning'],
+        'add-to-cart-visible':['頁面顯示可加入購物車','open'],
+        'sold-out-visible':['頁面顯示缺貨','closed'],
+        'preorder-visible':['頁面顯示預購','upcoming'],
+        'not-listed':['頁面查無商品','closed']
+      };
+      const status = statusMap[product.status] || statusMap.unknown;
+      const price = product.lastPrice != null ? money(product.lastPrice) : (product.researchPrice != null ? `曾記錄 ${money(product.researchPrice)}（非即時）` : '價格尚未確認');
+      return `<article class="product-row"><div class="product-code">${esc(code)}</div><div class="product-main"><div class="product-name">${esc(name)}</div><div class="product-detail">${esc(price)}${product.lastCheckedAt ? ` · 核對 ${esc(formatTaipei(product.lastCheckedAt))}` : ''}</div><span class="product-status">${status[0]}</span></div>${url ? `<a class="product-action" href="${esc(url)}" target="_blank" rel="noopener">前往誠品 ↗</a>` : '<span class="product-action disabled">無商品網址</span>'}</article>`;
+    }).join('');
   }
 
   function openEvent(eventId) {
     const event = state.events.find(item => item.eventId === eventId);
-    const url = safeUrl(event?.drawUrl || event?.announcementUrl);
-    if (!event || !url) { toast('這筆活動尚未提供可開啟的官方網址。', 'error'); return; }
-    setProgress(eventId, 'opened');
-    writeSession('bxxr:pending-event', eventId);
-    renderEvents(); renderStats(); renderOverview();
-    const link = document.createElement('a');
-    link.href = url;
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
-    link.style.display = 'none';
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    toast('已嘗試開啟官方頁。完成操作後返回本頁，手動確認結果。');
+    if (!event) return;
+    const url = safeUrl(event.drawUrl) || safeUrl(event.announcementUrl);
+    if (!url) { toast('這筆活動沒有有效網址。', 'error'); return; }
+    const progress = eventProgress();
+    progress[eventId] = { status:'opened', updatedAt:nowIso() };
+    writeStorage(STORAGE.progress, progress);
+    writeSession('bxxr:v04:pending-event', eventId);
+    // Open directly from the user's click so mobile browsers do not block it as a popup.
+    const opened = window.open(url, '_blank');
+    if (opened) opened.opener = null;
+    renderEvents();
+    toast('已開啟官方頁。返回後請確認是否完成抽選。');
   }
 
   function checkPendingReturn() {
-    const eventId = readSession('bxxr:pending-event');
-    if (!eventId || document.visibilityState === 'hidden') return;
+    const eventId = readSession('bxxr:v04:pending-event');
+    if (!eventId || document.visibilityState === 'hidden' || $('#progressDialog').open) return;
     const event = state.events.find(item => item.eventId === eventId);
-    if (!event) { removeSession('bxxr:pending-event'); return; }
-    state.pendingConfirmId = eventId;
-    $('#confirmMessage').textContent = `${event.productCode || ''} ${event.productName || ''}｜${getEventStore(event)?.name || '門市'}。返回本頁不代表官方已記錄抽選成功，請確認官方頁面是否顯示完成結果。`;
-    if (!$('#confirmDialog').open) $('#confirmDialog').showModal();
+    if (!event) { removeSession('bxxr:v04:pending-event'); return; }
+    state.pendingEventId = eventId;
+    $('#progressMessage').textContent = `${eventCode(event)} ${eventName(event)}｜${getStore(event.storeId)?.name || event.storeName || '門市'}。返回本頁不代表抽選成功，請依官方結果確認。`;
+    $('#progressDialog').showModal();
   }
 
-  function openProgressDialog(eventId) {
-    state.pendingConfirmId = eventId;
-    const event = state.events.find(item => item.eventId === eventId);
-    $('#confirmMessage').textContent = `${event?.productCode || ''} ${event?.productName || ''}｜${getEventStore(event)?.name || ''}。請依官方頁面結果選擇狀態。`;
-    $('#confirmDialog').showModal();
-  }
-
-  function finishEventProgress(progress) {
-    if (!state.pendingConfirmId) return;
-    setProgress(state.pendingConfirmId, progress);
-    removeSession('bxxr:pending-event');
-    $('#confirmDialog').close();
-    state.pendingConfirmId = null;
-    renderStats(); renderEvents(); renderOverview();
-    toast(progress === 'user-confirmed-complete' ? '已記錄為「你確認完成」，並非系統驗證中獎。' : '已保留為待處理，可稍後再回來完成。', 'success');
-  }
-
-  function deleteEvent(eventId) {
-    if (!confirm('確定刪除這筆活動紀錄？此動作不會影響官方抽選頁。')) return;
-    state.events = state.events.filter(item => item.eventId !== eventId);
-    writeStorage(STORAGE.events, state.events);
-    const progress = getProgress(); delete progress[eventId]; writeStorage(STORAGE.progress, progress);
-    renderStats(); renderEvents(); renderOverview();
-    toast('活動紀錄已刪除。', 'success');
-  }
-
-  function deleteProduct(productId) {
-    if (!confirm('確定從本機追蹤清單移除此商品？')) return;
-    state.products = state.products.filter(item => item.productId !== productId);
-    writeStorage(STORAGE.products, state.products);
-    renderStats(); renderProducts(); renderOverview();
-    toast('商品已從追蹤清單移除。', 'success');
-  }
-
-  function sendForegroundNotice(title, body) {
-    if ('Notification' in window && Notification.permission === 'granted' && readStorage(STORAGE.notification, false)) {
-      try { new Notification(title, { body }); } catch (error) { console.warn('Notification failed', error); }
+  function finishEventProgress(result) {
+    const id = state.pendingEventId || readSession('bxxr:v04:pending-event');
+    if (!id) { $('#progressDialog').close(); return; }
+    const previous = eventProgress();
+    previous[id] = { status:result === 'complete' ? 'complete' : 'opened', updatedAt:nowIso() };
+    writeStorage(STORAGE.progress, previous);
+    removeSession('bxxr:v04:pending-event');
+    state.pendingEventId = null;
+    $('#progressDialog').close();
+    renderEvents();
+    if (result === 'complete' && state.queueMode) {
+      const next = activeEvents()[0];
+      if (next) {
+        // This is still a user click (the confirmation button), so opening the next item is user-initiated.
+        toast(`已記錄完成，接著處理：${eventCode(next)} ${eventName(next)}`);
+        openEvent(next.eventId);
+      } else toast('本地區待處理活動已完成。');
+    } else {
+      toast(result === 'complete' ? '已記錄為你確認完成；不代表系統驗證中籤。' : '已保留為待處理，可稍後再開啟。');
     }
+  }
+
+  function renderStoresForSelect() {
+    $('#eventStore').innerHTML = state.stores.map(store => `<option value="${esc(store.storeId)}">${esc(store.regionName || '')} ${esc(store.name)}</option>`).join('');
+  }
+  function openEventDialog() {
+    renderStoresForSelect();
+    $('#eventForm').reset();
+    const localStore = currentStores()[0];
+    if (localStore) $('#eventStore').value = localStore.storeId;
+    $('#eventDialog').showModal();
+  }
+  function saveEvent(event) {
+    event.preventDefault();
+    const storeId = $('#eventStore').value;
+    const code = $('#eventCode').value.trim().toUpperCase();
+    const drawUrl = safeUrl($('#eventDrawUrl').value);
+    const announcementUrl = safeUrl($('#eventAnnouncement').value);
+    if (!code || (!drawUrl && !announcementUrl)) { toast('請填商品型號，以及至少一個官方或公告網址。', 'error'); return; }
+    state.events.unshift({
+      eventId:`manual-${Date.now()}`, storeId, productCode:code, productName:$('#eventName').value.trim(),
+      startsAt:$('#eventStarts').value ? new Date($('#eventStarts').value).toISOString() : null,
+      endsAt:$('#eventEnds').value ? new Date($('#eventEnds').value).toISOString() : null,
+      method:$('#eventMethod').value, status:$('#eventStatus').value, drawUrl, announcementUrl,
+      updatedAt:nowIso(), sourceType:'user-submitted'
+    });
+    writeStorage(STORAGE.events, state.events);
+    $('#eventDialog').close(); renderEvents(); toast('已補登活動（僅儲存在這台裝置）。');
+  }
+  function openProductDialog() { $('#productForm').reset(); $('#productDialog').showModal(); }
+  function saveProduct(event) {
+    event.preventDefault();
+    const code = $('#productCode').value.trim().toUpperCase();
+    const url = safeUrl($('#productUrl').value);
+    if (!code || !url) { toast('請填寫商品型號及有效的誠品網址。', 'error'); return; }
+    const product = { productId:`eslite-${code.toLowerCase()}`, code, nameZh:$('#productName').value.trim(), url, channel:'eslite', status:'unknown', researchPrice:$('#productPrice').value ? Number($('#productPrice').value) : null, watchEnabled:true, aliases:[code.replace('-','')] };
+    const index = state.products.findIndex(item => item.code?.toUpperCase() === code);
+    if (index >= 0) state.products[index] = {...state.products[index],...product}; else state.products.unshift(product);
+    writeStorage(STORAGE.products, state.products);
+    $('#productDialog').close(); renderProducts(); toast('已加入本機商品清單。');
   }
 
   function exportBackup() {
-    const backup = {
-      app: 'beyblade-x-radar', version: 1, exportedAt: nowIso(),
-      events: state.events, products: state.products, progress: getProgress(), queueMode: state.queueMode
-    };
-    const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a'); link.href = url; link.download = `beyblade-x-radar-backup-${new Date().toISOString().slice(0,10)}.json`;
-    link.click(); URL.revokeObjectURL(url);
-    toast('已匯出本機資料備份。', 'success');
+    const data = { app:'beyblade-x-radar', version:4, exportedAt:nowIso(), events:state.events, products:state.products, progress:eventProgress(), lineClicks:lineClicks(), queueMode:state.queueMode };
+    const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+    const url = URL.createObjectURL(blob); const a = document.createElement('a');
+    a.href = url; a.download = `beyblade-x-radar-backup-${new Date().toISOString().slice(0,10)}.json`; a.click(); URL.revokeObjectURL(url);
+    toast('已匯出個人紀錄。');
   }
-
   async function importBackup(event) {
-    const file = event.target.files?.[0];
-    if (!file) return;
+    const file = event.target.files?.[0]; if (!file) return;
     try {
       const data = JSON.parse(await file.text());
-      if (data.app !== 'beyblade-x-radar' || !Array.isArray(data.events) || !Array.isArray(data.products)) throw new Error('格式不符');
-      if (!confirm(`即將匯入 ${data.events.length} 筆活動與 ${data.products.length} 項商品，並覆蓋目前本機清單。確定繼續？`)) return;
-      state.events = data.events; state.products = data.products;
-      writeStorage(STORAGE.events, state.events); writeStorage(STORAGE.products, state.products);
-      if (data.progress) writeStorage(STORAGE.progress, data.progress);
-      if (data.queueMode !== undefined) { state.queueMode = !!data.queueMode; writeStorage(STORAGE.queue, state.queueMode); }
-      renderAll(); toast('備份已匯入。', 'success');
-    } catch (error) {
-      toast(`匯入失敗：${error.message}`, 'error');
-    } finally { event.target.value = ''; }
+      if (data.app !== 'beyblade-x-radar' || !Array.isArray(data.events) || !Array.isArray(data.products)) throw new Error('檔案格式不正確');
+      state.events=data.events; state.products=data.products;
+      writeStorage(STORAGE.events,state.events); writeStorage(STORAGE.products,state.products);
+      if (data.progress) writeStorage(STORAGE.progress,data.progress);
+      if (data.lineClicks) writeStorage(STORAGE.lineClicks,data.lineClicks);
+      if (data.queueMode !== undefined) { state.queueMode=!!data.queueMode; writeStorage(STORAGE.queue,state.queueMode); }
+      renderAll(); toast('個人紀錄已匯入。');
+    } catch (error) { toast(`匯入失敗：${error.message}`,'error'); }
+    finally { event.target.value=''; }
   }
-
+  function resetLineClicks() {
+    if (!confirm('確定重設所有 LINE「已開啟」標記？')) return;
+    localStorage.removeItem(STORAGE.lineClicks); renderStores(); toast('LINE 點擊紀錄已重設。');
+  }
   async function enableNotifications() {
-    if (!('Notification' in window)) { $('#notificationStatus').textContent = '此瀏覽器不支援通知 API'; toast('此瀏覽器不支援通知。', 'error'); return; }
-    try {
-      const permission = await Notification.requestPermission();
-      if (permission === 'granted') {
-        writeStorage(STORAGE.notification, true);
-        $('#notificationStatus').textContent = '通知權限已開啟；目前只支援頁面開啟期間的前景提醒';
-        new Notification('BEYBLADE X 搶購雷達', { body: '瀏覽器通知已啟用。記得官方庫存與抽選狀態仍需確認。' });
-        toast('通知權限已開啟。', 'success');
-      } else {
-        $('#notificationStatus').textContent = `通知權限：${permission}`;
-        toast('尚未取得通知權限。', 'error');
-      }
-    } catch { toast('無法啟用通知，請檢查瀏覽器設定。', 'error'); }
+    if (!('Notification' in window)) { toast('此瀏覽器不支援通知 API。','error'); return; }
+    const permission = await Notification.requestPermission();
+    if (permission === 'granted') { writeStorage(STORAGE.notification,true); $('#notificationStatus').textContent='通知權限已開啟（目前僅前景提醒）'; new Notification('BEYBLADE X 搶購助手',{body:'瀏覽器通知已啟用。活動與庫存仍請以官方頁面核對。'}); toast('通知權限已開啟。'); }
+    else { $('#notificationStatus').textContent=`通知權限：${permission}`; toast('尚未取得通知權限。','error'); }
+  }
+  function toast(message,type='') {
+    const region=$('#toastRegion'), node=document.createElement('div'); node.className=`toast ${type}`; node.textContent=message; region.appendChild(node);
+    window.setTimeout(()=>node.remove(),3800);
   }
 
-  function resetLocalData() {
-    if (!confirm('確定清除本機新增的活動、商品、抽選處理進度與偏好？靜態門市資料不會被刪除。建議先匯出備份。')) return;
-    Object.values(STORAGE).forEach(key => localStorage.removeItem(key));
-    removeSession('bxxr:pending-event');
-    location.reload();
-  }
-
-  function toast(message, type = '') {
-    const region = $('#toastRegion');
-    const item = document.createElement('div'); item.className = `toast ${type}`; item.textContent = message;
-    region.appendChild(item);
-    window.setTimeout(() => item.remove(), 4200);
-  }
-
-  function updateInstallControl() {
-    const button = $('#installButton');
-    if (state.appInstallPrompt) button.hidden = false;
-  }
-  async function installApp() {
-    if (!state.appInstallPrompt) { toast('可使用瀏覽器選單中的「加入主畫面」安裝。'); return; }
-    state.appInstallPrompt.prompt();
-    await state.appInstallPrompt.userChoice;
-    state.appInstallPrompt = null; $('#installButton').hidden = true;
-  }
   function registerServiceWorker() {
     if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
-      navigator.serviceWorker.register('service-worker.js').catch(error => console.warn('Service worker registration failed', error));
+      navigator.serviceWorker.register('service-worker.js').catch(error => console.warn('Service worker register failed',error));
     }
   }
 
-  init().catch(error => {
-    console.error(error);
-    toast('資料載入發生問題，請從 GitHub Pages 或本機伺服器開啟，不要直接雙擊 index.html。', 'error');
-  });
+  init().catch(error => { console.error(error); toast('載入失敗，請重新整理頁面。','error'); });
 })();

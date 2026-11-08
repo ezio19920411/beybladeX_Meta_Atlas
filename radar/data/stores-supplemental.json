@@ -1,0 +1,251 @@
+[
+  {
+    "storeId": "tw-tw-tpe-uxux-95c9ce66b4",
+    "regionId": "TW-TPE",
+    "regionName": "台北市",
+    "brand": "Funbox / 來玩聚",
+    "name": "來玩聚-台北地下街店",
+    "aliases": [
+      "台北地下街",
+      "北車地下街"
+    ],
+    "address": null,
+    "phone": null,
+    "lineId": "@453cqkyj",
+    "lineUrl": "https://line.me/R/ti/p/@453cqkyj",
+    "facebookUrl": null,
+    "sourceType": "supplemental-public-directory",
+    "verificationStatus": "listed-by-UXUX11-public-directory-not-individually-verified",
+    "sourceUrls": [
+      "https://uxux11.github.io/funbox-line/"
+    ],
+    "lastVerifiedAt": "2026-11-08",
+    "active": true,
+    "regionAssignmentStatus": "inferred-from-UXUX11-draw-section-and-city-grouping",
+    "sharedLineAccount": false
+  },
+  {
+    "storeId": "tw-tw-khh-uxux-31639816e7",
+    "regionId": "TW-KHH",
+    "regionName": "高雄市",
+    "brand": "Funbox / 來玩聚",
+    "name": "新楠家樂福",
+    "aliases": [
+      "來玩聚-新楠店",
+      "新楠"
+    ],
+    "address": null,
+    "phone": null,
+    "lineId": "@022itqlw",
+    "lineUrl": "https://line.me/R/ti/p/@022itqlw",
+    "facebookUrl": null,
+    "sourceType": "supplemental-public-directory",
+    "verificationStatus": "listed-by-UXUX11-public-directory-not-individually-verified",
+    "sourceUrls": [
+      "https://uxux11.github.io/funbox-line/"
+    ],
+    "lastVerifiedAt": "2026-11-08",
+    "active": true,
+    "regionAssignmentStatus": "inferred-from-UXUX11-draw-section-and-city-grouping",
+    "sharedLineAccount": false
+  },
+  {
+    "storeId": "tw-tw-tnn-uxux-de47eb2383",
+    "regionId": "TW-TNN",
+    "regionName": "台南市",
+    "brand": "Funbox / 來玩聚",
+    "name": "台南新仁家樂福",
+    "aliases": [
+      "來玩聚-新仁店",
+      "新仁家樂福"
+    ],
+    "address": null,
+    "phone": null,
+    "lineId": "@162fxyom",
+    "lineUrl": "https://line.me/R/ti/p/@162fxyom",
+    "facebookUrl": null,
+    "sourceType": "supplemental-public-directory",
+    "verificationStatus": "listed-by-UXUX11-public-directory-not-individually-verified",
+    "sourceUrls": [
+      "https://uxux11.github.io/funbox-line/"
+    ],
+    "lastVerifiedAt": "2026-11-08",
+    "active": true,
+    "regionAssignmentStatus": "inferred-from-UXUX11-draw-section-and-city-grouping",
+    "sharedLineAccount": false
+  },
+  {
+    "storeId": "tw-tw-cha-uxux-decba58346",
+    "regionId": "TW-CHA",
+    "regionName": "彰化縣",
+    "brand": "Funbox / 來玩聚",
+    "name": "彰化家樂福",
+    "aliases": [
+      "來玩聚彰化",
+      "來玩聚-彰化店"
+    ],
+    "address": null,
+    "phone": null,
+    "lineId": "@766sgllj",
+    "lineUrl": "https://line.me/R/ti/p/@766sgllj",
+    "facebookUrl": null,
+    "sourceType": "supplemental-public-directory",
+    "verificationStatus": "listed-by-UXUX11-public-directory-not-individually-verified",
+    "sourceUrls": [
+      "https://uxux11.github.io/funbox-line/"
+    ],
+    "lastVerifiedAt": "2026-11-08",
+    "active": true,
+    "regionAssignmentStatus": "inferred-from-UXUX11-draw-section-and-city-grouping",
+    "sharedLineAccount": false
+  },
+  {
+    "storeId": "tw-tw-cha-uxux-3ce82eb036",
+    "regionId": "TW-CHA",
+    "regionName": "彰化縣",
+    "brand": "Funbox / 來玩聚",
+    "name": "員林大潤發",
+    "aliases": [
+      "來玩聚員林",
+      "來玩聚-員林店"
+    ],
+    "address": null,
+    "phone": null,
+    "lineId": "@958tzuco",
+    "lineUrl": "https://line.me/R/ti/p/@958tzuco",
+    "facebookUrl": null,
+    "sourceType": "supplemental-public-directory",
+    "verificationStatus": "listed-by-UXUX11-public-directory-not-individually-verified",
+    "sourceUrls": [
+      "https://uxux11.github.io/funbox-line/"
+    ],
+    "lastVerifiedAt": "2026-11-08",
+    "active": true,
+    "regionAssignmentStatus": "inferred-from-UXUX11-draw-section-and-city-grouping",
+    "sharedLineAccount": false
+  },
+  {
+    "storeId": "tw-tw-yun-uxux-4d5eab75e2",
+    "regionId": "TW-YUN",
+    "regionName": "雲林縣",
+    "brand": "Funbox / 來玩聚",
+    "name": "斗六家樂福",
+    "aliases": [
+      "來玩聚斗六",
+      "來玩聚-斗六店"
+    ],
+    "address": null,
+    "phone": null,
+    "lineId": "@rsp8657s",
+    "lineUrl": "https://line.me/R/ti/p/@rsp8657s",
+    "facebookUrl": null,
+    "sourceType": "supplemental-public-directory",
+    "verificationStatus": "listed-by-UXUX11-public-directory-not-individually-verified",
+    "sourceUrls": [
+      "https://uxux11.github.io/funbox-line/"
+    ],
+    "lastVerifiedAt": "2026-11-08",
+    "active": true,
+    "regionAssignmentStatus": "inferred-from-UXUX11-draw-section-and-city-grouping",
+    "sharedLineAccount": false
+  },
+  {
+    "storeId": "tw-tw-khh-uxux-afd3c0d101",
+    "regionId": "TW-KHH",
+    "regionName": "高雄市",
+    "brand": "Funbox / 來玩聚",
+    "name": "鳳山家樂福",
+    "aliases": [
+      "來玩聚鳳山",
+      "鳳山來玩聚"
+    ],
+    "address": null,
+    "phone": null,
+    "lineId": "@189yvcce",
+    "lineUrl": "https://line.me/R/ti/p/@189yvcce",
+    "facebookUrl": null,
+    "sourceType": "supplemental-public-directory",
+    "verificationStatus": "listed-by-UXUX11-public-directory-not-individually-verified",
+    "sourceUrls": [
+      "https://uxux11.github.io/funbox-line/"
+    ],
+    "lastVerifiedAt": "2026-11-08",
+    "active": true,
+    "regionAssignmentStatus": "inferred-from-UXUX11-draw-section-and-city-grouping",
+    "sharedLineAccount": false
+  },
+  {
+    "storeId": "tw-tw-khh-uxux-17bc606fe4",
+    "regionId": "TW-KHH",
+    "regionName": "高雄市",
+    "brand": "Funbox / 來玩聚",
+    "name": "楠梓家樂福",
+    "aliases": [
+      "來玩聚楠梓",
+      "來玩聚-楠梓店"
+    ],
+    "address": null,
+    "phone": null,
+    "lineId": "@241cmnww",
+    "lineUrl": "https://line.me/R/ti/p/@241cmnww",
+    "facebookUrl": null,
+    "sourceType": "supplemental-public-directory",
+    "verificationStatus": "listed-by-UXUX11-public-directory-not-individually-verified",
+    "sourceUrls": [
+      "https://uxux11.github.io/funbox-line/"
+    ],
+    "lastVerifiedAt": "2026-11-08",
+    "active": true,
+    "regionAssignmentStatus": "inferred-from-UXUX11-draw-section-and-city-grouping",
+    "sharedLineAccount": false
+  },
+  {
+    "storeId": "tw-tw-pif-uxux-eb6996297a",
+    "regionId": "TW-PIF",
+    "regionName": "屏東縣",
+    "brand": "Funbox / 來玩聚",
+    "name": "新屏家樂福",
+    "aliases": [
+      "來玩聚新屏"
+    ],
+    "address": null,
+    "phone": null,
+    "lineId": "@308oaews",
+    "lineUrl": "https://line.me/R/ti/p/@308oaews",
+    "facebookUrl": null,
+    "sourceType": "supplemental-public-directory",
+    "verificationStatus": "listed-by-UXUX11-public-directory-not-individually-verified",
+    "sourceUrls": [
+      "https://uxux11.github.io/funbox-line/"
+    ],
+    "lastVerifiedAt": "2026-11-08",
+    "active": true,
+    "regionAssignmentStatus": "inferred-from-UXUX11-draw-section-and-city-grouping",
+    "sharedLineAccount": false
+  },
+  {
+    "storeId": "tw-tw-ttt-uxux-27c9d28c8d",
+    "regionId": "TW-TTT",
+    "regionName": "台東縣",
+    "brand": "Funbox / 來玩聚",
+    "name": "台東家樂福",
+    "aliases": [
+      "來玩聚台東家樂福",
+      "台東家樂福"
+    ],
+    "address": null,
+    "phone": null,
+    "lineId": "@438glrqv",
+    "lineUrl": "https://line.me/R/ti/p/@438glrqv",
+    "facebookUrl": null,
+    "sourceType": "supplemental-public-directory",
+    "verificationStatus": "listed-by-UXUX11-public-directory-not-individually-verified",
+    "sourceUrls": [
+      "https://uxux11.github.io/funbox-line/"
+    ],
+    "lastVerifiedAt": "2026-11-08",
+    "active": true,
+    "regionAssignmentStatus": "inferred-from-UXUX11-draw-section-and-city-grouping",
+    "sharedLineAccount": true
+  }
+]
