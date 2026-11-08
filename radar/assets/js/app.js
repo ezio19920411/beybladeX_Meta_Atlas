@@ -1,4 +1,4 @@
-/* BEYBLADE X Radar v0.4.1 - merged store directory and external event sources. */
+/* BEYBLADE X Radar v0.4.3 - live draw screen + persistent product slot. */
 (() => {
   'use strict';
 
@@ -8,7 +8,8 @@
     progress: 'bxxr:v1:progress',
     queue: 'bxxr:v1:queue-mode',
     notification: 'bxxr:v1:notification',
-    lineClicks: 'bxxr:v1:line-clicks'
+    lineClicks: 'bxxr:v1:line-clicks',
+    slotLastProduct: 'bxxr:v1:slot-last-product'
   };
   const DEFAULT_REGION = 'TW-TXG';
   const DIRECTORY_URL = 'https://beybuilder.5-seven.dog/draw/';
@@ -37,12 +38,12 @@
     regions: [], stores: [], products: [], events: [], notSellingStoreIds: [], drawSources: [],
     updatedAt: null, activeRegion: DEFAULT_REGION, activeTab: 'funbox', query: '',
     productCode: 'all', timeSlot: 'all', queueMode: false, pendingEventId: null,
-    appInstallPrompt: null, wasHidden: false
+    appInstallPrompt: null, wasHidden: false, slotSpinning: false, slotLastProduct: null
   };
 
   async function loadJson(path, fallback) {
     try {
-      const response = await fetch(`${path}?v=0.4.1`, { cache: 'no-store' });
+      const response = await fetch(`${path}?v=0.4.3`, { cache: 'no-store' });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       return await response.json();
     } catch (error) {
@@ -80,8 +81,9 @@
     state.events = Array.isArray(savedEvents) ? savedEvents : normalized.events;
     state.notSellingStoreIds = normalized.notSellingStoreIds;
     state.drawSources = Array.isArray(drawSources?.sources) ? drawSources.sources : [];
-    state.updatedAt = metadata.importedAt || metadata.version || null;
+    state.updatedAt = metadata.importedAt || null;
     state.queueMode = !!readStorage(STORAGE.queue, false);
+    state.slotLastProduct = readStorage(STORAGE.slotLastProduct, null);
     readUrlState();
     bindEvents();
     renderAll();
@@ -153,6 +155,15 @@
       updateModeButtons(); renderEvents();
     }));
     $('#settingsOpen').addEventListener('click', () => $('#settingsDialog').showModal());
+    $('#spinProduct').addEventListener('click', spinProductSlot);
+    $('#livePreviewDetails').addEventListener('toggle', () => {
+      const details = $('#livePreviewDetails');
+      const frame = $('#liveDrawFrame');
+      if (details.open && frame) {
+        const url = frame.dataset.src || 'https://uxux11.github.io/funbox-line/#:~:text=%E6%8A%BD%E9%81%B8%E6%A8%A1%E5%BC%8F';
+        if (frame.getAttribute('src') !== url) frame.setAttribute('src', url);
+      }
+    });
     $$('[data-close]').forEach(button => button.addEventListener('click', () => $('#' + button.dataset.close).close()));
     $('#exportButton').addEventListener('click', exportBackup);
     $('#importInput').addEventListener('change', importBackup);
@@ -176,7 +187,7 @@
     }
   }
 
-  function setTab(tab) {
+  function setTab(tab, shouldScroll = true) {
     state.activeTab = tab;
     $$('.main-tab').forEach(button => button.classList.toggle('active', button.dataset.tab === tab));
     $('#view-funbox').classList.toggle('active', tab === 'funbox');
@@ -184,17 +195,64 @@
     $('#view-eslite').classList.toggle('active', tab === 'eslite');
     $('#view-eslite').hidden = tab !== 'eslite';
     updateUrl();
-    window.scrollTo({ top:0, behavior:'smooth' });
+    if (shouldScroll) window.scrollTo({ top:0, behavior:'smooth' });
     if (tab === 'eslite') renderProducts();
+  }
+
+  function shortDate(value) {
+    if (!value) return '';
+    const match = String(value).match(/^(\d{4})-(\d{2})-(\d{2})/);
+    return match ? `${match[2]}/${match[3]}` : String(value);
+  }
+
+  function renderLatestBatch() {
+    const source = state.drawSources.find(item => item.id === 'uxux11');
+    const host = $('#latestBatchSummary');
+    if (!host) return;
+    if (!source) {
+      host.innerHTML = `<div class="latest-batch-copy"><span class="kicker">LATEST DRAW BATCH</span><h2>最新抽選來源暫時無法讀取</h2><p>可以直接開啟 UXUX11 原始頁面查看最新公告。</p></div>`;
+      return;
+    }
+    const range = source.batchStartDate && source.batchEndDate
+      ? `${shortDate(source.batchStartDate)} – ${shortDate(source.batchEndDate)}`
+      : '日期以原始頁面為準';
+    const update = source.lastPageUpdate ? formatTaipei(source.lastPageUpdate) : '更新時間未提供';
+    const expired = source.snapshotStatus === 'expired' || (source.batchEndDate && new Date(`${source.batchEndDate}T23:59:59+08:00`).getTime() < Date.now());
+    const statusText = expired ? '最近一批已結束' : source.snapshotStatus === 'historical' ? '歷史批次' : '來源有最新批次';
+    const statusClass = expired ? 'closed' : 'open';
+    const count = source.drawBatchStoreCount ? `${source.drawBatchStoreCount} 家門市` : '門市數以來源為準';
+    const noSale = source.notSellingStoreCount ? `${source.notSellingStoreCount} 家列為本週未販售` : '';
+    const drawUrl = safeUrl(source.drawScreenUrl) || safeUrl(source.url) || 'https://uxux11.github.io/funbox-line/';
+    host.href = drawUrl;
+    const primaryLink = $('#primaryDrawLink');
+    const fullScreenLink = $('#fullScreenDrawLink');
+    const frame = $('#liveDrawFrame');
+    if (primaryLink) primaryLink.href = drawUrl;
+    if (fullScreenLink) fullScreenLink.href = drawUrl;
+    if (frame) {
+      frame.dataset.src = drawUrl;
+      if ($('#livePreviewDetails')?.open && frame.getAttribute('src') !== drawUrl) frame.setAttribute('src', drawUrl);
+    }
+    const products = (Array.isArray(source.lastBatchProducts) ? source.lastBatchProducts : [])
+      .map(product => `${product.code || product.productCode || ''} ${product.name || product.nameZh || ''}`.trim())
+      .filter(Boolean);
+    const productText = products.length ? products.join('、') : '商品清單以原始抽選頁為準';
+    host.innerHTML = `
+      <div class="latest-batch-top"><span class="pill ${statusClass}">${esc(statusText)}</span><span class="latest-source-name">${esc(source.name)}</span></div>
+      <div class="latest-batch-copy"><span class="kicker">LATEST DRAW BATCH · 點擊進入抽選</span><h2>${esc(range)} 抽選批次</h2><p>最後核對更新：${esc(update)}（台灣時間）</p><p class="latest-batch-products"><b>商品：</b>${esc(productText)}</p></div>
+      <div class="latest-batch-stats"><div><strong>${esc(count)}</strong><span>最近批次門市數</span></div>${noSale ? `<div><strong>${esc(noSale)}</strong><span>來源附帶資訊</span></div>` : ''}</div>
+      <p class="latest-batch-disclaimer">點擊卡片直接進入原站抽選畫面。此處顯示最後核對的批次快照；有新批次時，以原站即時畫面為準。</p>`;
   }
 
   function renderAll() {
     renderRegionSelect();
     syncControls();
+    renderLatestBatch();
     renderStores();
     renderEvents();
     renderProducts();
-    setTab(state.activeTab);
+    renderProductSlot();
+    setTab(state.activeTab, false);
     const meta = state.updatedAt ? `門市更新 ${formatTaipei(state.updatedAt)}` : '門市資料以 Google Sheet 同步版本為準';
     $('#footerMeta').textContent = meta;
     $('#dataState').textContent = state.stores.length ? `${state.stores.length} 家門市` : '門市資料未載入';
@@ -357,14 +415,18 @@
   function eventCard(event, index) {
     const store = getStore(event.storeId);
     const status = eventStatusPill(effectiveStatus(event));
-    const drawUrl = safeUrl(event.drawUrl) || safeUrl(event.announcementUrl);
+    const drawUrl = safeUrl(event.drawUrl);
     const announcementUrl = safeUrl(event.announcementUrl);
     const progress = progressStatus(event.eventId);
     const isComplete = progress === 'complete';
     const isOpened = progress === 'opened';
     const product = `${eventCode(event)} ${eventName(event)}`.trim();
     const time = eventTimeText(event);
-    const actionLabel = safeUrl(event.drawUrl) ? '前往抽選' : '查看公告';
+    const action = drawUrl
+      ? `<button class="event-button" type="button" data-open-event="${esc(event.eventId)}">前往抽選</button>`
+      : announcementUrl
+        ? `<a class="event-button event-link-button" href="${esc(announcementUrl)}" target="_blank" rel="noopener noreferrer">查看公告 ↗</a>`
+        : `<a class="event-button event-link-button" href="https://uxux11.github.io/funbox-line/" target="_blank" rel="noopener noreferrer">開啟抽選清單 ↗</a>`;
     return `<article class="event-card" data-event-id="${esc(event.eventId)}">
       <div class="event-content">
         <div class="event-labels"><span class="pill ${status[1]}">${status[0]}</span><span class="pill">${esc(eventMethodLabel(event.method))}</span>${isComplete ? '<span class="pill open">已確認完成</span>' : isOpened ? '<span class="pill warning">已開啟</span>' : ''}</div>
@@ -372,12 +434,14 @@
         <div class="event-store">${esc(store?.name || event.storeName || '門市待確認')}</div>
         <div class="event-time">${esc(time)}${event.purchaseTimeText ? `<br>購買資格：${esc(event.purchaseTimeText)}` : ''}</div>
       </div>
-      <div class="event-action-wrap">${drawUrl ? `<button class="event-button" type="button" data-open-event="${esc(event.eventId)}">${actionLabel}</button>` : '<button class="event-button" type="button" disabled>尚無網址</button>'}${announcementUrl ? `<a class="event-source" href="${esc(announcementUrl)}" target="_blank" rel="noopener">原始公告 ↗</a>` : ''}</div>
+      <div class="event-action-wrap">${action}${announcementUrl && drawUrl ? `<a class="event-source" href="${esc(announcementUrl)}" target="_blank" rel="noopener noreferrer">原始公告 ↗</a>` : ''}</div>
     </article>`;
   }
 
   function renderEvents() {
     renderEventFilters();
+    const verifiedBlock = $('#verifiedEventsBlock');
+    if (verifiedBlock) verifiedBlock.hidden = state.events.length === 0;
     updateDirectoryLink();
     const visible = activeEvents();
     const expired = state.events.filter(event => {
@@ -428,6 +492,102 @@
     }
   }
 
+  function buildProductPool() {
+    const pool = new Map();
+    const add = (codeValue, nameValue, sourceLabel) => {
+      const code = String(codeValue || '').trim().toUpperCase();
+      if (!code || code === '商品待確認') return;
+      const name = String(nameValue || '').trim();
+      const key = code.replace(/\s+/g, '');
+      const existing = pool.get(key);
+      if (!existing || (!existing.name && name)) {
+        pool.set(key, { code, name, source: sourceLabel || '商品資料' });
+      }
+    };
+
+    // Products are generated dynamically from verified/local draw records and Eslite watch products.
+    state.events.forEach(event => add(eventCode(event), eventName(event), '抽選活動'));
+    state.products.forEach(product => {
+      if (product.watchEnabled === false) return;
+      add(product.code || product.productId, product.nameZh || product.name, '誠品追蹤商品');
+    });
+    state.drawSources.forEach(source => {
+      (Array.isArray(source.lastBatchProducts) ? source.lastBatchProducts : []).forEach(product => {
+        add(product.code || product.productCode, product.name || product.nameZh, source.name || '最近批次');
+      });
+    });
+    return [...pool.values()].sort((a,b) => a.code.localeCompare(b.code, 'zh-Hant'));
+  }
+
+  function renderProductSlot() {
+    const pool = buildProductPool();
+    const count = $('#slotPoolCount');
+    const button = $('#spinProduct');
+    const codeNode = $('#slotCode');
+    const nameNode = $('#slotName');
+    const metaNode = $('#slotMeta');
+    const lastNode = $('#slotLastResult');
+    if (!count || !button || !codeNode || !nameNode || !metaNode || !lastNode) return;
+    count.textContent = `${pool.length} 款候選商品`;
+    button.disabled = state.slotSpinning || pool.length === 0;
+    button.textContent = state.slotSpinning ? '拉霸中…' : '🎰 開始拉霸';
+
+    if (state.slotSpinning) return;
+    const last = state.slotLastProduct;
+    if (last && last.code) {
+      codeNode.textContent = last.code;
+      nameNode.textContent = last.name || '商品名稱待確認';
+      metaNode.textContent = '最後一次抽出 · 已保存在本機';
+      const timeText = last.drawnAt ? formatTaipei(last.drawnAt) : '時間未記錄';
+      lastNode.innerHTML = `<span class="slot-last-badge">已保留上次結果</span><span>${esc(last.code)} ${esc(last.name || '')}</span><small>${esc(timeText)}</small>`;
+    } else {
+      codeNode.textContent = 'BEYBLADE X';
+      nameNode.textContent = pool.length ? '按下開始拉霸' : '目前沒有可抽商品';
+      metaNode.textContent = pool.length ? '候選商品由抽選批次及誠品追蹤清單自動整理' : '待匯入抽選商品或新增追蹤商品';
+      lastNode.textContent = '尚未有抽出紀錄';
+    }
+  }
+
+  function spinProductSlot() {
+    if (state.slotSpinning) return;
+    const pool = buildProductPool();
+    if (!pool.length) { toast('目前商品池是空的，請先載入抽選活動或誠品商品。', 'error'); return; }
+
+    let candidates = pool;
+    if (state.slotLastProduct && pool.length > 1) {
+      const withoutLast = pool.filter(item => item.code !== state.slotLastProduct.code);
+      if (withoutLast.length) candidates = withoutLast;
+    }
+    const result = candidates[Math.floor(Math.random() * candidates.length)];
+    const reel = $('#slotReel');
+    const button = $('#spinProduct');
+    const codeNode = $('#slotCode');
+    const nameNode = $('#slotName');
+    const metaNode = $('#slotMeta');
+    state.slotSpinning = true;
+    button.disabled = true;
+    button.textContent = '拉霸中…';
+    reel.classList.add('spinning');
+    metaNode.textContent = `正在從 ${pool.length} 款商品中抽選`;
+
+    const start = Date.now();
+    const duration = 1500;
+    const timer = window.setInterval(() => {
+      const preview = pool[Math.floor(Math.random() * pool.length)];
+      codeNode.textContent = preview.code;
+      nameNode.textContent = preview.name || '商品名稱待確認';
+      if (Date.now() - start >= duration) {
+        window.clearInterval(timer);
+        state.slotLastProduct = { ...result, drawnAt: nowIso(), poolSize: pool.length };
+        writeStorage(STORAGE.slotLastProduct, state.slotLastProduct);
+        state.slotSpinning = false;
+        reel.classList.remove('spinning');
+        renderProductSlot();
+        toast(`拉霸結果：${result.code} ${result.name || ''}`);
+      }
+    }, 78);
+  }
+
   function renderProducts() {
     const products = state.products.filter(product => product.watchEnabled !== false && matchesQuery(`${product.code || ''} ${product.nameZh || product.name || ''} ${(product.aliases || []).join(' ')}`));
     const container = $('#productList');
@@ -455,8 +615,10 @@
   function openEvent(eventId) {
     const event = state.events.find(item => item.eventId === eventId);
     if (!event) return;
-    const url = safeUrl(event.drawUrl) || safeUrl(event.announcementUrl);
-    if (!url) { toast('這筆活動沒有有效網址。', 'error'); return; }
+    const directDrawUrl = safeUrl(event.drawUrl);
+    const announcementUrl = safeUrl(event.announcementUrl);
+    const url = directDrawUrl || announcementUrl;
+    if (!url) { toast('這筆活動沒有抽選頁或公告網址。', 'error'); return; }
     const progress = eventProgress();
     progress[eventId] = { status:'opened', updatedAt:nowIso() };
     writeStorage(STORAGE.progress, progress);
@@ -465,7 +627,7 @@
     const opened = window.open(url, '_blank');
     if (opened) opened.opener = null;
     renderEvents();
-    toast('已開啟官方頁。返回後請確認是否完成抽選。');
+    toast(directDrawUrl ? '已開啟單筆抽選頁。返回後請確認是否完成。' : '這筆沒有單獨抽選網址，已開啟原始公告；請從公告確認抽選入口。');
   }
 
   function checkPendingReturn() {
@@ -537,11 +699,11 @@
     const index = state.products.findIndex(item => item.code?.toUpperCase() === code);
     if (index >= 0) state.products[index] = {...state.products[index],...product}; else state.products.unshift(product);
     writeStorage(STORAGE.products, state.products);
-    $('#productDialog').close(); renderProducts(); toast('已加入本機商品清單。');
+    $('#productDialog').close(); renderProducts(); renderProductSlot(); toast('已加入本機商品清單，商品拉霸候選池也已更新。');
   }
 
   function exportBackup() {
-    const data = { app:'beyblade-x-radar', version:4, exportedAt:nowIso(), events:state.events, products:state.products, progress:eventProgress(), lineClicks:lineClicks(), queueMode:state.queueMode };
+    const data = { app:'beyblade-x-radar', version:4, exportedAt:nowIso(), events:state.events, products:state.products, progress:eventProgress(), lineClicks:lineClicks(), queueMode:state.queueMode, slotLastProduct:state.slotLastProduct };
     const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
     const url = URL.createObjectURL(blob); const a = document.createElement('a');
     a.href = url; a.download = `beyblade-x-radar-backup-${new Date().toISOString().slice(0,10)}.json`; a.click(); URL.revokeObjectURL(url);
@@ -557,6 +719,7 @@
       if (data.progress) writeStorage(STORAGE.progress,data.progress);
       if (data.lineClicks) writeStorage(STORAGE.lineClicks,data.lineClicks);
       if (data.queueMode !== undefined) { state.queueMode=!!data.queueMode; writeStorage(STORAGE.queue,state.queueMode); }
+      if (data.slotLastProduct) { state.slotLastProduct=data.slotLastProduct; writeStorage(STORAGE.slotLastProduct,state.slotLastProduct); }
       renderAll(); toast('個人紀錄已匯入。');
     } catch (error) { toast(`匯入失敗：${error.message}`,'error'); }
     finally { event.target.value=''; }

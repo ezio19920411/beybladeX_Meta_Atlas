@@ -1,21 +1,20 @@
-# BEYBLADE X 搶購雷達 v0.4.1
+# BEYBLADE X 搶購助手 v0.4.3
 
-此資料夾是 GitHub Pages 的 `/radar/` 網站。
+## 主要操作
 
-- `index.html`：主頁面（手機優先、簡化操作）
-- `assets/`：CSS、JavaScript、圖示
-- `data/stores.json`：合併後門市清單（Google Sheet 主資料＋補充資料）
-- `data/stores-supplemental.json`：UXUX11 公開 LINE 名錄的額外據點
-- `data/regions.json`：目前載入的縣市選項
-- `data/products.json`：誠品追蹤商品
-- `data/draw-events.json`：已核實活動資料（目前為空，不放過期活動）
-- `data/draw-sources.json`：UXUX11 與 BeyBuilder 外部來源及快照資訊
-- `scripts/sync_funbox_stores.py`：Google Sheets CSV 匯入程式；會保留並合併補充門市
-- `source-research.md`：第三方資料來源研究、能證實與不能證實的部分
-- `manifest.webmanifest`、`service-worker.js`：PWA 支援
+1. 開啟「最新抽選畫面」卡片或「進入抽選畫面」按鈕，會前往 UXUX11 原站的抽選區，不會導向 LINE 加好友。
+2. 按「進入抽選畫面」會開啟原站最新批次；也可展開本站內嵌預覽。原站提供「手動抽選（預設）」與「自動連抽」。自動連抽協助逐筆開啟抽選連結；每次仍由使用者在官方抽選頁親自確認及送出。
+3. 若內嵌頁面不能顯示，使用「全螢幕開啟」。部分 LINE 內建瀏覽器可能不支援文字片段自動捲動，必要時在原站向下捲至「抽選模式」。
+4. 「商品拉霸」會從本站抽選活動、誠品追蹤商品、最近一批已知商品動態組成去重候選池。最後一次抽出結果保存在目前瀏覽器，重新整理後仍保留。
+5. LINE 門市好友清單收在折疊區，為次要功能；誠品商品維持獨立分頁。
 
-## 資料合併規則
+## 商品拉霸說明
 
-Google Sheet 的 68 筆門市資料是主要來源；UXUX11 名錄新增 10 個據點作補充（其中台東家樂福與台東秀泰共用 LINE ID）。BeyBuilder 僅作抽選商品／門市歷史目錄探索來源，不把舊活動當成目前有效抽選。
+- 候選池來源：`data/draw-events.json`、`data/products.json`、`data/draw-sources.json` 的 `lastBatchProducts`。
+- 新增或同步商品資料後，重新載入頁面即可重建候選池。
+- 拉霸結果是隨機挑選商品，不是官方抽選、庫存判斷或中籤結果。
+- 最後結果以 `localStorage` 儲存在同一裝置；可使用設定中的個人紀錄匯出／匯入備份。
 
-自動同步設定請看專案根目錄 `GOOGLE_SHEETS_AUTO_SYNC_SETUP.md`。目前自動同步只更新門市資料，尚未自動擷取第三方網站的活動內容或誠品即時庫存。
+## 資料狀態
+
+UXUX11 內嵌的是來源網站目前公開的頁面。本站上方日期／商品摘要來自 `data/draw-sources.json` 的最後核對快照，不保證即時。當期抽選時間、活動是否有效及實際抽選連結，以原站最新頁面和門市官方公告為準。來源最新快照若已過期，本站會標示「最近一批已結束」，不會當成正在抽選。

@@ -1,7 +1,7 @@
-const CACHE_NAME = 'beyblade-x-radar-v0.4.1';
+const CACHE_NAME = 'beyblade-x-radar-v0.4.3';
 const APP_SHELL = [
   './', './index.html', './manifest.webmanifest',
-  './assets/css/styles.css?v=0.4.1', './assets/js/app.js?v=0.4.1',
+  './assets/css/styles.css?v=0.4.3', './assets/js/app.js?v=0.4.3',
   './assets/icon.svg', './assets/icon-192.png', './assets/icon-512.png',
   './data/regions.json', './data/stores.json', './data/products.json',
   './data/draw-events.json', './data/draw-sources.json', './data/stores-supplemental.json', './data/source-metadata.json'
