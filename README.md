@@ -1,3 +1,4 @@
+[README.md](https://github.com/user-attachments/files/34537750/README.md)
 # BEYBLADE X 搶購雷達（MVP v0.2）
 
 手機優先的靜態網站原型，整合誠品線上與 Funbox 門市資訊。Funbox 主資料已由使用者提供的全台門市名單匯入，預設顯示台中市，並保留其他縣市選擇。
@@ -11,6 +12,15 @@
 - 保留舊資料可確認的台中門市地址與電話；其他店點未提供的地址不自行猜測。
 - 所有 Facebook／LINE 網址均標示尚未逐一人工測試；縣市歸屬是依店名／商場位置推定。
 - 更新頁面快取版本與文件。
+# Google Sheets 標題列錯誤修正（v0.3.1）
+
+錯誤若顯示目前讀到欄位 `['Funbox 戰鬥陀螺LINE抽選 各店資料表', '', '', '']`，表示 CSV 第一列是表格標題，不是真正欄位。
+
+本版 `radar/scripts/sync_funbox_stores.py` 已修正：會自動在前 40 列尋找包含 `店名`、`粉專網址`、`LINE官方帳號ID` 的標題列，並略過上方標題和空白列。
+
+## 只更新一個檔案即可
+
+在 GitHub Repository 將新版 `radar/scripts/sync_funbox_stores.py` 覆蓋到相同路徑，Commit 到 `main`，然後重新執行 Actions → `Sync Funbox Stores from Google Sheets`。不必改 Workflow、不必改 Google Sheet、不必重新發布 CSV。
 
 ## 已完成功能
 
