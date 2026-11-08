@@ -158,16 +158,46 @@ def stable_id(name: str, region_id: str) -> str:
     return f"tw-{region_id.lower()}-funbox-{digest}"
 
 
+def find_header_row(rows: list[list[str]], scan_limit: int = 40) -> tuple[int, list[str], dict[str, str]]:
+    """Find the real column-header row, even when a title/blank row is above it."""
+    for index, row in enumerate(rows[:scan_limit]):
+        # Google Sheets may serialize a merged title cell as one value plus empty cells.
+        try:
+            columns = header_map(row)
+            return index, row, columns
+        except ValueError:
+            continue
+    preview = [row for row in rows[:min(8, len(rows))]]
+    raise ValueError(
+        "前 40 列都找不到必要欄位標題（店名、粉專網址、LINE官方帳號ID）。"
+        f"目前 CSV 前幾列：{preview}。請確認發布的是正確工作表，且欄位標題有包含這三個名稱。"
+    )
+
+
 def parse_rows(csv_text: str, old_stores: list[dict[str, Any]], sheet_url: str) -> list[dict[str, Any]]:
-    reader = csv.DictReader(io.StringIO(csv_text))
-    columns = header_map(reader.fieldnames)
+    # Do not assume the first CSV row is the header: the user's sheet has a title row first.
+    rows = list(csv.reader(io.StringIO(csv_text)))
+    if not rows:
+        raise ValueError("CSV 是空的，沒有任何資料列。")
+    header_index, header, columns = find_header_row(rows)
+    header_positions = {name: index for index, name in enumerate(header) if name is not None}
+
+    def cell(row: list[str], key: str) -> str:
+        column_name = columns.get(key)
+        if not column_name:
+            return ""
+        column_index = header_positions.get(column_name)
+        if column_index is None or column_index >= len(row):
+            return ""
+        return (row[column_index] or "").strip()
+
     existing = {norm_name(store.get("name", "")): store for store in old_stores}
     stores: list[dict[str, Any]] = []
     seen: set[str] = set()
-    for row_number, row in enumerate(reader, start=2):
-        name = (row.get(columns["name"]) or "").strip()
-        facebook_raw = (row.get(columns["facebook"]) or "").strip()
-        line_raw = (row.get(columns["line"]) or "").strip()
+    for row_number, row in enumerate(rows[header_index + 1:], start=header_index + 2):
+        name = cell(row, "name")
+        facebook_raw = cell(row, "facebook")
+        line_raw = cell(row, "line")
         if not name and not facebook_raw and not line_raw:
             continue
         if not name:
@@ -177,15 +207,15 @@ def parse_rows(csv_text: str, old_stores: list[dict[str, Any]], sheet_url: str) 
             raise ValueError(f"店名重複：{name}（第 {row_number} 列）。請先在試算表合併重複列。")
         seen.add(key)
         old = existing.get(key)
-        city = (row.get(columns.get("city", "")) or "").strip() if columns.get("city") else ""
+        city = cell(row, "city")
         region_id, region_name, region_status = city_info(city, old)
         facebook = clean_url(facebook_raw)
         line_id = clean_line_id(line_raw)
         if not facebook and not line_id:
             raise ValueError(f"第 {row_number} 列「{name}」沒有 Facebook 網址或 LINE ID。")
-        address = (row.get(columns.get("address", "")) or "").strip() if columns.get("address") else ""
-        phone = (row.get(columns.get("phone", "")) or "").strip() if columns.get("phone") else ""
-        active_raw = (row.get(columns.get("active", "")) or "").strip().lower() if columns.get("active") else ""
+        address = cell(row, "address")
+        phone = cell(row, "phone")
+        active_raw = cell(row, "active").lower()
         active = active_raw not in {"否", "停用", "關閉", "false", "0", "no", "inactive"}
         item = {
             "storeId": (old or {}).get("storeId") or stable_id(name, region_id),
@@ -234,6 +264,9 @@ def main() -> int:
     metadata = json.loads(metadata_path.read_text(encoding="utf-8")) if metadata_path.exists() else {}
 
     csv_text = fetch_csv(args.csv_url)
+    source_rows = list(csv.reader(io.StringIO(csv_text)))
+    header_index, _, _ = find_header_row(source_rows)
+    print(f"已在 CSV 第 {header_index + 1} 列找到真正的欄位標題（自動略過上方標題／空白列）。")
     new_stores = parse_rows(csv_text, old_stores, args.sheet_url)
     if len(new_stores) < args.minimum_rows:
         raise ValueError(f"匯入只有 {len(new_stores)} 家，低於安全門檻 {args.minimum_rows} 家；為避免空白／錯誤 CSV 覆蓋原資料，已停止更新。")
