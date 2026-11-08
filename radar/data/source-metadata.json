@@ -1,25 +1,28 @@
 {
   "dataset": "Funbox store social links",
   "version": "2026-11-08-v0.4.5",
-  "providedBy": "user",
+  "providedBy": "Google Sheets (user-maintained)",
   "storeCount": 78,
   "regionCount": 17,
   "defaultRegion": "TW-TXG",
   "fields": [
     "store name",
     "Facebook page URL",
-    "LINE official account ID"
+    "LINE official account ID",
+    "city (optional)"
   ],
-  "verification": "Google Sheet rows and public-directory supplements are user/source-provided; links and official-account status have not been individually verified.",
+  "verification": "Imported from user-maintained Google Sheet. Facebook and LINE links are not automatically verified as active or official.",
   "notes": [
     "Facebook share/reurl links may redirect; they are preserved as provided with URL normalization.",
     "LINE friend URL is generated from the provided LINE Official Account ID using line.me/R/ti/p/.",
     "Taichung is the default display region. All listed regions are available in the region selector."
   ],
   "sourceSheetUrl": "https://docs.google.com/spreadsheets/d/1FoLE_Y8EgVoeydoh_WXeCm7EIl0q8SqMIR6zK_6CtQU/edit?gid=0#gid=0",
-  "regionMapping": "Region assignment inferred from store name or mall location because original table did not include a city/county column.",
+  "regionMapping": "Existing region mapping is retained by matching store name. New stores should include an optional 縣市 column; otherwise they are assigned to 待指定縣市.",
   "googleSheetStoreCount": 68,
   "supplementalStoreCount": 10,
   "supplementalNotes": "Supplemental store records are kept separately from the Google Sheet canonical list. Supplemental links have not been individually verified.",
-  "lastActivityImportAt": "2026-11-08T17:19:00+08:00"
+  "lastActivityImportAt": "2026-11-08T17:19:00+08:00",
+  "sourceCsvUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQhwUDrSi-I3CEjVCCxY65oMLDalgsMZgmDKg7hCbnSy8jcJVMAFtRoDrjc3ctFhf8UR161_Q3_cZIi/pub?output=csv",
+  "importedAt": "2026-11-08-v0.4.5"
 }
